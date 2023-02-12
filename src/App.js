@@ -1,23 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import {Admin, Resource} from 'react-admin'
+import {TicketsRead} from './Views/Tickets/TicketsRead'
+import {ManageUserRoles} from './Views/UserRoles/ManageUserRoles'
+import {ProjectsRead} from './Views/Projects/ProjectsRead'
+import {CompaniesRead} from './Views/Companies/CompaniesRead'
+import {Box} from "@mui/material";
+import simpleRestProvider from 'ra-data-simple-rest';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Admin dataProvider={simpleRestProvider(`https://localhost:7110`)}> 
+        <Resource name="tickets" list={TicketsRead} />
+        <Resource name="projects" list={ProjectsRead} />
+        <Resource name="users" list={ManageUserRoles} />
+        <Resource name="companies" list={CompaniesRead} />
+
+      </Admin> 
     </div>
   );
 }
