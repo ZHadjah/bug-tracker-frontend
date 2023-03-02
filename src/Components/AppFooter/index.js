@@ -6,7 +6,6 @@ function AppFooter() {
       <Typography.Link href="zach hadjah">fsdfs</Typography.Link>
       <Typography.Link>Privacy policy</Typography.Link>      
       <Typography.Link>Privacy policy</Typography.Link>
-
     </div>
   )
 }

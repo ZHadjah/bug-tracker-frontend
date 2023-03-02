@@ -1,13 +1,14 @@
 import { Badge, Space, Image, Typography } from "antd";
-import { BellFilled,  MailOutlined } from "@ant-design/icons";
+import { BellFilled,  MailOutlined, LayoutTwoTone } from "@ant-design/icons";
 
 function AppHeader() {
   return (
     <div className="AppHeader">
-      <Image
-        width={40}
-        src="C:\Users\zhadj\source\repos\bug-tracker-frontend\src\Images\Internal_Issues.png"
-      ></Image>
+      
+      <LayoutTwoTone style={{ fontSize: 24 }}/>
+
+      
+      
       <Typography.Title>Internal Issues</Typography.Title>
       <Space>
         <Badge count={10} dot>

@@ -12,11 +12,13 @@ import {Space} from 'antd';
 function App() {
   return (
     <>
-      <AppHeader/>
-      <Space className="SideMenuAndPageContent">
-        <SideMenu></SideMenu>
-        <PageContent></PageContent>
-      </Space>
+      <div style={{height: 'calc(100vh - 50px)'}}>
+        <AppHeader/>
+        <Space className="SideMenuAndPageContent">
+          <SideMenu></SideMenu>
+          <PageContent></PageContent>
+        </Space>
+      </div>
       <AppFooter/>
     </>
   );
