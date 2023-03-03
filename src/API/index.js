@@ -1,25 +1,46 @@
 import React from 'react'
 
+const baseUrl = 'https://localhost:7110/Tickets';
+
+
 //used in dashboard for charts and small cards
 export function GetTicketsCount() {
   return (
-    fetch('https://localhost:7110/Tickets/NumberOfTickets')
+    fetch( baseUrl + `/NumberOfTickets`)
         .then(res => res.json())       
   )
 }
 
 export function GetAllTickets() {
     return (
-      fetch('https://localhost:7110/Tickets')
-          .then(res => res.json())
+      fetch(baseUrl)
+        .then(res => res.json())
           
     )
 }
 
 export function GetTicketsEdit(id) {
   return (
-    fetch(`https://localhost:7110/Tickets/Edit/${id}`)
+    fetch( baseUrl + `/Edit/${id}`)
         .then(res => res.json())
+        
+  )
+}
+
+export function DeleteTicket(id) {
+  return (
+    fetch(baseUrl + `/Delete/${id}`, {method: 'DELETE'})
+        .then((res) =>{
+          if(!res.ok){
+            // throw new Error('Something went wrong');
+            console.log("Error")
+          }
+          else
+            console.log('deletion done')
+        })
+        .catch((e) => {
+          console.log(e);
+        })
         
   )
 }

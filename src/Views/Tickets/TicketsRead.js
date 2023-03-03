@@ -4,12 +4,20 @@ import { GetAllTickets } from "../../API";
 import { Space } from "antd";
 import { Typography, Modal } from "antd";
 import { Link } from 'react-router-dom'
+import { TicketsDelete} from './TicketsDelete.js'
+import { TicketsUpdate} from './TicketsUpdate.js'
 
 function TicketsRead() {
   const [dataSource, setDataSoruce] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [id, setId] = useState(1);
+
+  const [dlgModalInfo, setDlgModalInfo] = useState({
+    title: "",
+    id: 0,
+    isShow: false
+  });
 
   //Tickets fetch logic 
   useEffect(() => {
@@ -22,31 +30,39 @@ function TicketsRead() {
 
   //Modal Logic
   const [isModalOpen, setIsModalOpen] = useState(false);
-  function showModal(newModalTitle){
-    console.log("show modal triggered")
-    setIsModalOpen(true);
-    setModalTitle(newModalTitle);
+  function showModal(newModalTitle, id){
+    setDlgModalInfo({
+      title: newModalTitle,
+      id,
+      isShow: true
+    })
   };
   function handleOk(){
     console.log("handle ok triggered")
-    setIsModalOpen(false);
+
+    setDlgModalInfo({
+      ...dlgModalInfo,
+      isShow: false
+    })
   };
   function handleCancel(){
     console.log("handle cancel triggered")
 
-    setIsModalOpen(false);
+    setDlgModalInfo({
+      ...dlgModalInfo,
+      isShow: false
+    })
   };
 
   return (
     <>
       <Typography.Title level={3}>TicketsRead</Typography.Title>
       <Card>
-        <Table
+        <Table 
           columns={[
             {
               title: "id",
-              dataIndex: "id",
-              
+              dataIndex: "id"
             },
             {
               title: "title",
@@ -58,12 +74,13 @@ function TicketsRead() {
             },
             {
               // key: "action",
-              render: (_, record) => (
+              render: (_, record) => {
+                return (
                 <Space size="middle">          
-                  <Link onClick={() =>showModal("Edit")}>Edit </Link> 
-                  <Link onClick={() =>showModal("Delete")}>Delete</Link> 
+                  <Link onClick={() =>showModal("Edit", record.id)}>Edit </Link> 
+                  <Link onClick={() =>showModal("Delete", record.id)}>Delete</Link> 
                 </Space>
-              ),
+              )},
             },
           ]}
           loading={loading}
@@ -72,15 +89,10 @@ function TicketsRead() {
         ></Table>
       </Card>
 
-      <Modal title={modalTitle} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Card>
-          ergsedfg
-        </Card>
+      <Modal title={dlgModalInfo.title} open={dlgModalInfo.isShow} onOk={handleOk} onCancel={handleCancel}>
+        {dlgModalInfo.title == "Edit" ? <TicketsUpdate id={dlgModalInfo.id}/> : <TicketsDelete  id={dlgModalInfo.id}/>}
       </Modal>
     </>
   );
 }
-
-
-
 export default TicketsRead;
