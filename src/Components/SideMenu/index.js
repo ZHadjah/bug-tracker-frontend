@@ -29,20 +29,16 @@ function SideMenu() {
               label:"Companies",
               icon: <UsergroupDeleteOutlined />,
               children:[
-                { label: "Companies Create", key:"Companies Create"},
-                { label: "Companies Read",   key:"Companies Read",    key: '/Companies'},
-                { label: "Companies Update", key:"Companies Update"},
-                { label: "Companies Delete", key:"Companies Delete"},
+                { label: "Create A Company", key:"Companies Create"},
+                { label: "View All Companies",   key:"Companies Read",    key: '/Companies'},
               ],             
             },
             {
               label:"Projects",
               icon: <ProjectOutlined />,
               children:[
-                { label: "Projects Create", key:"Projects Create"},
-                { label: "Projects Read",   key:"Projects Read",    key: '/Projects'},
-                { label: "Projects Update", key:"Projects Update"},
-                { label: "Projects Delete", key:"Projects Delete"},
+                { label: "Create A Project", key:"Projects Create"},
+                { label: "View All Projects",   key:"Projects Read",    key: '/Projects'},
               ], 
             },
             {

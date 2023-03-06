@@ -13,11 +13,7 @@ function TicketsRead() {
   const [modalTitle, setModalTitle] = useState("");
   const [id, setId] = useState(1);
 
-  const [dlgModalInfo, setDlgModalInfo] = useState({
-    title: "",
-    id: 0,
-    isShow: false
-  });
+  
 
   //Tickets fetch logic 
   useEffect(() => {
@@ -30,24 +26,29 @@ function TicketsRead() {
 
   //Modal Logic
   const [isModalOpen, setIsModalOpen] = useState(false);
-  function showModal(newModalTitle, id){
+  const [dlgModalInfo, setDlgModalInfo] = useState({
+    modalTitle: "",
+    ticketId: 0,
+    isShow: false,
+  });
+  
+  // function showModal(newModalTitle, id, title, ticketDescription, project, priority, status,
+  //                    type, size, ownerUser, developerUser){
+     function showModal(newModalTitle, id, ticketDescription){
     setDlgModalInfo({
-      title: newModalTitle,
+      modalTitle: newModalTitle,
       id,
-      isShow: true
+      isShow: true,
+      
     })
   };
   function handleOk(){
-    console.log("handle ok triggered")
-
     setDlgModalInfo({
       ...dlgModalInfo,
       isShow: false
     })
   };
   function handleCancel(){
-    console.log("handle cancel triggered")
-
     setDlgModalInfo({
       ...dlgModalInfo,
       isShow: false
@@ -75,9 +76,10 @@ function TicketsRead() {
             {
               // key: "action",
               render: (_, record) => {
+
                 return (
-                <Space size="middle">          
-                  <Link onClick={() =>showModal("Edit", record.id)}>Edit </Link> 
+                <Space size="middle">                      
+                  <Link onClick={() =>showModal("Edit", record.id )}>Edit</Link>  
                   <Link onClick={() =>showModal("Delete", record.id)}>Delete</Link> 
                 </Space>
               )},
@@ -89,8 +91,11 @@ function TicketsRead() {
         ></Table>
       </Card>
 
-      <Modal title={dlgModalInfo.title} open={dlgModalInfo.isShow} onOk={handleOk} onCancel={handleCancel}>
-        {dlgModalInfo.title == "Edit" ? <TicketsUpdate id={dlgModalInfo.id}/> : <TicketsDelete  id={dlgModalInfo.id}/>}
+      <Modal title={dlgModalInfo.modalTitle} open={dlgModalInfo.isShow} onOk={handleOk} onCancel={handleCancel}>
+
+        {dlgModalInfo.modalTitle == "Edit" ? <TicketsUpdate id={dlgModalInfo.id}/>                                                       
+                                                       :       
+                                             <TicketsDelete id={dlgModalInfo.id}/>}
       </Modal>
     </>
   );

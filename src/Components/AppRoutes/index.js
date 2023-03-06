@@ -1,5 +1,5 @@
 import {Route, Routes} from 'react-router-dom'
-import Dashboard from '../../Views/Dashboard'
+import Dashboard from '../../Components/Dashboard'
 import TicketsRead from '../../Views/Tickets/TicketsRead'
 import CompaniesRead from '../../Views/Companies/CompaniesRead'
 import ProjectsRead from '../../Views/Projects/ProjectsRead'

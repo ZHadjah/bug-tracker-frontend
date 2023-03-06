@@ -9,25 +9,15 @@ import {
   TabletOutlined,
 } from "@ant-design/icons";
 import { Space } from "antd";
-import { First } from "react-bootstrap/esm/PageItem";
 import { useState } from "react";
-import { GetAllTickets, GetTicketsCount} from "../../API";
+import { GetAllTickets, GetDashboardNumbers} from "../../API";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import axios from 'axios'
 
 
-
-function Dashboard() {
-
-  const [numberOfTickets, setNumberOfTickets] = useState(0);
-  useEffect(() => {
-    setNumberOfTickets(GetTicketsCount().then(res => {
-      console.log('res = ', res);
-        setNumberOfTickets(parseInt(res));
-    })) 
-  }, [])
-
+function Dashboard() { 
   return (
     <div>
       <Space size={20} direction="vertical">
@@ -41,7 +31,7 @@ function Dashboard() {
               />
             }
             title={"Tickets"}
-            value={numberOfTickets}
+            value={69}
           ></DashboardCard>
           <DashboardCard
             bgColor={"grey"}
@@ -88,7 +78,28 @@ function Dashboard() {
 function Charts(){
   ChartJS.register(ArcElement, Tooltip, Legend);
 
+  const [chartNumbers, setChartNumbers] = useState({
+   tickets: 0,
+   projects: 0,
+   companies: 0,
+   users: 0
+  });
 
+  useEffect(() => {
+    axios('https://localhost:7110/home').then(res => {
+      setChartNumbers({
+        tickets: res.data.Tickets,
+        projects: res.data.Projects,
+        companies: res.data.Companies,
+        users: res.data.Users
+      })
+
+      console.log(res.data)
+    }) }, []
+  )   
+     
+
+    
   const data = {
     labels: [
         "Tickets",
@@ -98,7 +109,7 @@ function Charts(){
     ],
     datasets: [
         {
-            data: [55, 80,65,32],
+            data: [chartNumbers.tickets, chartNumbers.projects, chartNumbers.companies, chartNumbers.users ],
             backgroundColor: [
                 "blue",
                 "yellow",
@@ -162,12 +173,7 @@ function RecentTickets() {
 
 function DashboardCard({ bgColor, icon, value, title }) {
 
-  const [numberOfTickets, setNumberOfTickets] = useState();
-
-
-  useEffect(() => {
-    const setNumberOfTickets = GetTicketsCount()
-  })
+ 
 
 
   return (
