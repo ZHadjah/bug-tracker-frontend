@@ -40,20 +40,22 @@ export default function GetTicketDetails(id) {
   })  
 }
 
-export function DeleteTicket(id) {
+export async function DeleteTicket(id) {
   return (
-    fetch(ticketsBaseUrl + `/Delete/${id}`, {method: 'DELETE'})
+    // await axios.delete(ticketsBaseUrl + `/Delete/${id}`, {method: 'DELETE'})
+     await axios.delete(`https://localhost:7110/Tickets/Delete/${id}`, {method: 'DELETE'})
         .then((res) =>{
           if(!res.ok){
-            // throw new Error('Something went wrong');
-            console.log("Error")
-          }
-          else
-            console.log('deletion done')
+            console.log("error")
+            console.log(id)
+
+          }       
+          else if (res.ok){
+            console.log('worked')
+            console.log(id)
+
+          }   
         })
-        .catch((e) => {
-          console.log(e);
-        })
-        
+             
   )
 }

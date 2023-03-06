@@ -2,8 +2,11 @@ import { GetTicketsEdit } from '../../API';
 import React, { useEffect, useState } from "react";
 import "../../API";
 import { DeleteTicket } from "../../API";
-import { Card, Button } from 'antd';
 import axios from "axios"
+import { Button, Card ,Form, Input,  Upload} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+
+
 
 export function TicketsUpdate({id}) {
   const baseUrl = 'https://localhost:7110/Tickets';
@@ -16,36 +19,76 @@ export function TicketsUpdate({id}) {
     })
   }, [id]);
 
+
+  const { TextArea } = Input;
+
+  const handleSubmit = async (e, id) => {
+    e.preventDefault();
+    await axios.put(baseUrl+`/Update/${id}`,{} )
+      .then()
+
+  }
+
   return (
     <Card>
-      <div>Id: {details?.id}</div>
-      <div>Ticket Title: {details?.title}</div>
-      <div>Project: {details?.project?.name}</div> 
-      <div>Description: {details?.description}</div>
-      <div>Priority: {details?.ticketPriority?.name}</div>   
-      <div>Status: {details?.ticketStatus?.name}</div>  
-      <div>Type: {details?.ticketType?.name}</div> 
-      <div>Comments: </div>
-      {
-        details?.comments['$values']?.map((item, key) => {
-          return (
-            <div key={key}>
-              Value: {item}
+  
+
+    <Form 
+        onSubmit={handleSubmit(details?.id)}
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 14 }}
+        layout="horizontal"
+        style={{ maxWidth: 600 }}>
+      <Form.Item label="Id">
+        <Input 
+        required
+         placeholder={details?.id} />
+      </Form.Item>
+
+      <Form.Item label="Title">
+        <Input 
+        required 
+        placeholder={details?.title} />
+      </Form.Item>
+
+      <Form.Item label="Project">
+        <Input required placeholder={details?.project?.name} />
+      </Form.Item>
+
+      <Form.Item label="Description">
+        <Input required placeholder={details?.description} />
+      </Form.Item>
+
+      <Form.Item label="Priority">
+        <Input required placeholder={details?.ticketPriority?.name} />
+      </Form.Item>
+
+      <Form.Item label="Status">
+        <Input required placeholder={details?.ticketStatus?.name} />
+      </Form.Item>
+      
+      <Form.Item label="Type">
+        <Input required placeholder={details?.ticketType?.name} />
+      </Form.Item>
+
+      <Form.Item label='Enter comments'>
+          <TextArea rows={4} />
+      </Form.Item>
+
+      <Form.Item label="Upload" valuePropName="fileList">
+          <Upload action="/upload.do" listType="picture-card">
+            <div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>Upload</div>
             </div>
-          )
-        })
-      }
-      <div>Attachments: </div>
-      {
-        details?.attachments['$values']?.map((item, key) => {
-          return (
-            <div key={key}>
-              Value: {item}
-            </div>
-          )
-        })
-      }
-     <Button type="primary">Update</Button>
+          </Upload>
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary">Update</Button>
+      </Form.Item>
+
+    </Form>   
 
   </Card>
   )

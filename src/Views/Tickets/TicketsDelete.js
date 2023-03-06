@@ -4,20 +4,32 @@ import { DeleteTicket } from "../../API";
 import { Card, Button } from 'antd';
 import axios from "axios"
 
-
 export function TicketsDelete({ id }) {
   const baseUrl = 'https://localhost:7110/Tickets';
   const [details, setDetails] = useState(null);
-
- 
 
   useEffect(() => {
     axios( baseUrl + `/Details/${id}`)
     .then(res => {
       setDetails(res.data);
     })
-    
   }, [id]);
+
+
+  function testAxiosDelete(id){
+     axios.delete(`https://localhost:7110/Tickets/Delete/${id}`, {method: 'DELETE'})
+        .then((res) =>{
+          if(!res.ok){
+            console.log("error")
+            console.log(id)
+
+          }       
+          else if (res.ok){
+            console.log('worked')
+            console.log(id)
+          }   
+        })
+  }
    
   return (
     <>
@@ -50,8 +62,13 @@ export function TicketsDelete({ id }) {
           })
         }
 
-        <Button type="primary" danger >Delete</Button>
+        <Button type="primary" danger onClick={() => testAxiosDelete(id)}>Delete</Button>
       </Card>
     </>
   )
+
+  
+
+
+
 }

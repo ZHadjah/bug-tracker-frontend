@@ -11,9 +11,7 @@ function TicketsRead() {
   const [dataSource, setDataSoruce] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [id, setId] = useState(1);
-
-  
+  const [id, setId] = useState(1);  
 
   //Tickets fetch logic 
   useEffect(() => {
