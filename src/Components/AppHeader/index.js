@@ -3,19 +3,18 @@ import { BellFilled,  MailOutlined, LayoutTwoTone } from "@ant-design/icons";
 
 function AppHeader() {
   return (
-    <div className="AppHeader">
+    <div className="AppHeader" style={{backgroundColor: "#2A52BE"}}>
       
       <LayoutTwoTone style={{ fontSize: 24 }}/>
 
-      
-      
-      <Typography.Title>Internal Issues</Typography.Title>
+            
+      <Typography.Title style={{ color: "white" }}>Internal Issues</Typography.Title>
       <Space>
         <Badge count={10} dot>
-          <MailOutlined style={{ fontSize: 24 }} />
+          <MailOutlined style={{ fontSize: 24, color: "white" }} />
         </Badge>
         <Badge count={20}>
-          <BellFilled style={{ fontSize: 24 }} />
+          <BellFilled style={{ fontSize: 24, color: "white" }} />
         </Badge>
       </Space>
     </div>

@@ -24,7 +24,7 @@ function Dashboard() {
         <Typography.Title level={4}>Dashboard</Typography.Title>
         <Space direction="horizontal">
           <DashboardCard
-            bgColor={"grey"}
+            bgColor={"#138DE1"}
             icon={
               <TabletOutlined
                 style={{ color: "blue", backgroundColor: "light-blue" }}
@@ -34,7 +34,7 @@ function Dashboard() {
             value={69}
           ></DashboardCard>
           <DashboardCard
-            bgColor={"grey"}
+            bgColor={"#fba80f"}
             icon={
               <ProjectOutlined
                 style={{ color: "orange", backgroundColor: "light-orange" }}
@@ -44,7 +44,7 @@ function Dashboard() {
             value={555}
           ></DashboardCard>
           <DashboardCard
-            bgColor={"grey"}
+            bgColor={"#d81414"}
             icon={
               <UsergroupDeleteOutlined
                 style={{ color: "red", backgroundColor: "light-red" }}
@@ -54,7 +54,7 @@ function Dashboard() {
             value={555}
           ></DashboardCard>
           <DashboardCard
-            bgColor={"grey"}
+            bgColor={"#40ba40"}
             icon={
               <UserOutlined
                 style={{ color: "green", backgroundColor: "light-yellow" }}

@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom'
 function SideMenu() {
   const navigate = useNavigate();
     return (
-      <div className="SideMenu">
-        <Menu 
+      <div className="SideMenu" >
+        <Menu style={{backgroundImage: "linear-gradient(170deg,#2A52BE,#00BFFF)", color: "white"}}
+          
           onClick={(item) => {
             //item.key
             navigate(item.key);
           }}
           items={[
+
             {
               label:"Dashboard",
               icon: <AppstoreOutlined />,
