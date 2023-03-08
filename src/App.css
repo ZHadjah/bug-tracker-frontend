@@ -25,7 +25,8 @@
 }
 
 .SideMenu{
-  
+  width: 180px;
+  height: 100%; 
 }
 
 .PageContent{
@@ -37,9 +38,10 @@
   flex: 1;
   justify-content: flex-start;
   align-items: flex-start;
-  height: calc(100% - 52px);
+  /* height: calc(100% - 52px); */
 }
 
-.ant-space-item {
-
+.Dashboard-Card{
+  margin-right: 30px;
+  width: 175px;
 }

@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <div style={{height: 'calc(100vh - 50px)'}}>
-        <AppHeader        style="dark"/>
+        <AppHeader />
         <Space className="SideMenuAndPageContent">
           <SideMenu></SideMenu>
           <PageContent></PageContent>

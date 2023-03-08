@@ -11,66 +11,84 @@ import {
 import { Space } from "antd";
 import { useState } from "react";
 import { GetAllTickets, GetDashboardNumbers} from "../../API";
-
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import axios from 'axios'
 
 
+
+
+
 function Dashboard() { 
+
+  const [entityNumbers, setEntityNumbers] = useState({
+    tickets: 0,
+    projects: 0,
+    companies: 0,
+    users: 0
+   });
+
+   useEffect(() => {
+    axios.get('https://localhost:7110/home').then(res => {
+      setEntityNumbers({
+        tickets: res.data.Tickets,
+        projects: res.data.Projects,
+        companies: res.data.Companies,
+        users: res.data.Users
+      })
+    }) }, []
+  )   
+
+
   return (
-    <div>
-      <Space size={20} direction="vertical">
-        <Typography.Title level={4}>Dashboard</Typography.Title>
-        <Space direction="horizontal">
-          <DashboardCard
-            bgColor={"#138DE1"}
-            icon={
-              <TabletOutlined
-                style={{ color: "blue", backgroundColor: "light-blue" }}
-              />
-            }
-            title={"Tickets"}
-            value={69}
-          ></DashboardCard>
-          <DashboardCard
-            bgColor={"#fba80f"}
-            icon={
-              <ProjectOutlined
-                style={{ color: "orange", backgroundColor: "light-orange" }}
-              />
-            }
-            title={"Projects"}
-            value={555}
-          ></DashboardCard>
-          <DashboardCard
-            bgColor={"#d81414"}
-            icon={
-              <UsergroupDeleteOutlined
-                style={{ color: "red", backgroundColor: "light-red" }}
-              />
-            }
-            title={"Companies"}
-            value={555}
-          ></DashboardCard>
-          <DashboardCard
-            bgColor={"#40ba40"}
-            icon={
-              <UserOutlined
-                style={{ color: "green", backgroundColor: "light-yellow" }}
-              />
-            }
-            title={"Users"}
-            value={555}
-          ></DashboardCard>
-        </Space>
-        <br />
-        <Space>
-          <RecentTickets />
-          <Charts />
-        </Space>
+    <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} size={60} direction="vertical">
+      <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: "20px"}} direction="horizontal">
+        <DashboardCard id="testing"
+          bgColor={"#01D2FE"}
+          icon={
+            <TabletOutlined
+              style={{ color: "black"}}
+            />
+          }
+          title={"Tickets"}
+          value={entityNumbers.tickets}
+        ></DashboardCard>
+        <DashboardCard 
+          bgColor={"#fba80f"}
+          icon={
+            <ProjectOutlined
+              style={{ color: "black" }}
+            />
+          }
+          title={"Projects"}
+          value={entityNumbers.projects}
+        ></DashboardCard>
+        <DashboardCard 
+          bgColor={"#d81414"}
+          icon={
+            <UsergroupDeleteOutlined
+              style={{ color: "black"}}
+            />
+          }
+          title={"Companies"}
+          value={entityNumbers.companies}
+        ></DashboardCard>
+        <DashboardCard 
+          bgColor={"#40ba40"}
+          icon={
+            <UserOutlined
+              style={{ color: "black" }}
+            />
+          }
+          title={"Users"}
+          value={entityNumbers.users}
+        ></DashboardCard>
       </Space>
-    </div>
+      <Space>
+        <RecentTickets />
+        <Charts />
+      </Space>
+    </Space>
   );
 }
 
@@ -78,16 +96,16 @@ function Dashboard() {
 function Charts(){
   ChartJS.register(ArcElement, Tooltip, Legend);
 
-  const [chartNumbers, setChartNumbers] = useState({
-   tickets: 0,
-   projects: 0,
-   companies: 0,
-   users: 0
-  });
+  const [entityNumbers, setEntityNumbers] = useState({
+    tickets: 0,
+    projects: 0,
+    companies: 0,
+    users: 0
+   });
 
   useEffect(() => {
-    axios('https://localhost:7110/home').then(res => {
-      setChartNumbers({
+    axios.get('https://localhost:7110/home').then(res => {
+      setEntityNumbers({
         tickets: res.data.Tickets,
         projects: res.data.Projects,
         companies: res.data.Companies,
@@ -109,7 +127,7 @@ function Charts(){
     ],
     datasets: [
         {
-            data: [chartNumbers.tickets, chartNumbers.projects, chartNumbers.companies, chartNumbers.users ],
+            data: [entityNumbers.tickets, entityNumbers.projects, entityNumbers.companies, entityNumbers.users ],
             backgroundColor: [
                 "blue",
                 "yellow",
@@ -117,10 +135,10 @@ function Charts(){
                 "green",
             ],
             hoverBackgroundColor: [
-                "dark-blue",
-                "orange",
-                "purple",
-                "dark-green",
+                "#1919ff",
+                "#ffff7f",
+                "#ff6f6f",
+                "#4ca64c",
             ],
             hoverBorderColor: "#fff"
         }]
@@ -172,12 +190,8 @@ function RecentTickets() {
 }
 
 function DashboardCard({ bgColor, icon, value, title }) {
-
- 
-
-
   return (
-    <Card bodyStyle={{ backgroundColor: bgColor }}>
+    <Card className="Dashboard-Card" bodyStyle={{ backgroundColor: bgColor }}>
       <Space direction="horizontal">
         {icon}
         <Statistic title={title} value={value} />

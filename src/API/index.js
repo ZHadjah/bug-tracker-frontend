@@ -2,24 +2,32 @@ import React, {useState} from 'react'
 import axios from "axios"
 
 const ticketsBaseUrl = 'https://localhost:7110/Tickets';
-const baseUrl = 'https://localhost:7110/home';
+const baseUrl = 'https://localhost:7110';
+const homeBaseUrl = 'https://localhost:7110/home';
 
 
 //used in dashboard for charts and small cards
 export function GetDashboardNumbers() {
   return (
-    axios.get(baseUrl).then(res => {
+    axios.get(homeBaseUrl).then(res => {
       return res.data
     })         
   )
 }
 
 export function GetAllTickets() {
-    return (
-      fetch(ticketsBaseUrl)
-        .then(res => res.json())
-          
-    )
+  return (
+    fetch(ticketsBaseUrl)
+      .then(res => res.json())
+  )
+}
+
+export function GetAllCompanies() {
+  return (
+    fetch(`${baseUrl}/companies`)
+      .then(res => {console.log(res.json())})
+      
+  )
 }
 
 export function GetTicketsEdit(id) {
@@ -59,3 +67,4 @@ export async function DeleteTicket(id) {
              
   )
 }
+
