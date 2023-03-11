@@ -99,17 +99,17 @@ function Dashboard() {
 
         <Chart 
           firstRecord={entityNumbers.tickets}   firstTitle={"Tickets"} 
-          secondRecord={entityNumbers.projects} //secondTitle={"Projects"}
-          // thirdRecord={entityNumbers.companies} thirdTitle={"Companies"}
-          // fourthRecord={entityNumbers.users}    fourthTitle={"Users"}
+          secondRecord={entityNumbers.projects} secondTitle={"Projects"}
+          thirdRecord={entityNumbers.companies} thirdTitle={"Companies"}
+          fourthRecord={entityNumbers.users}    fourthTitle={"Users"}
         />
 
 
         <Chart 
-          // firstRecord={entityNumbers.newStatus} firstTitle={"New Status"}         
-          // secondRecord={entityNumbers.developmentStatuss} secondTitle={"Development Status"}
-          // thirdRecord={entityNumbers.testingStatus} thirdTitle={"Testing Status"}
-          // fourthRecord={entityNumbers.resolvedStatus} fourthTitle={"Resolved Status"}
+          firstRecord={entityNumbers.newStatus} firstTitle={"New Status"}         
+          secondRecord={entityNumbers.developmentStatuss} secondTitle={"Development Status"}
+          thirdRecord={entityNumbers.testingStatus} thirdTitle={"Testing Status"}
+          fourthRecord={entityNumbers.resolvedStatus} fourthTitle={"Resolved Status"}
         />
 
       </Space>

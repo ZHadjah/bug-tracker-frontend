@@ -1,0 +1,10 @@
+{
+    "NumberOfTickets": 75,
+    "NumberOfProjects": 5,
+    "NumberofCompanies": 5,
+    "NumberOfUsers": 17,
+    "NumberOfTicketsInNewStatus": 58,
+    "NumberOfTicketsInDevelopmentStatus": 15,
+    "NumberOfTicketsInTestingStatus": 2,
+    "NumberOfTicketsInResolvedStatus": 0
+  }
