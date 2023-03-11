@@ -9,7 +9,7 @@ function SideMenu() {
   const navigate = useNavigate();
     return (
       <div className="SideMenu" >         
-        <Menu style={{ height:"100vh", backgroundImage: "linear-gradient(170deg,#2A52BE,#01D2FE)", color: "white"}}
+        <Menu mode='inline' style={{ height:"100vh", backgroundImage: "linear-gradient(170deg,#2A52BE,#01D2FE)", color: "white"}}
           onClick={(item) => {
             //item.key
             navigate(item.key);
@@ -24,15 +24,15 @@ function SideMenu() {
             {
               label:"Tickets",
               icon: <TabletOutlined />,
-              children:[
-                { label: "Create A Ticket", key:"Tickets Create"},
+              children:[ 
+                { label: "Create A Ticket", key:"TicketsCreate", key: '/Tickets/Create'},
                 { label: "View All Tickets",   key:"Tickets Read",    key: '/Tickets'},
               ],
             },
             {
               label:"Companies",
               icon: <UsergroupDeleteOutlined />,
-              children:[
+              children:[ 
                 { label: "Create A Company", key:"Companies Create"},
                 { label: "View All Companies",   key:"Companies Read",    key: '/Companies'},
               ],             
@@ -41,7 +41,7 @@ function SideMenu() {
               label:"Projects",
               icon: <ProjectOutlined />,
               children:[
-                { label: "Create A Project", key:"Projects Create"},
+                { label: "Create A Project", key:"Projects Create", key: '/ProjectsCreate'},
                 { label: "View All Projects",   key:"Projects Read",    key: '/Projects'},
               ], 
             },

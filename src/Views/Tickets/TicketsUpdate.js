@@ -23,7 +23,7 @@ export function TicketsUpdate({id}) {
   const { TextArea } = Input;
 
   const handleSubmit = async (e, id) => {
-    e.preventDefault();
+    // e.preventDefault();
     await axios.put(baseUrl+`/Update/${id}`,{} )
       .then()
 

@@ -16,28 +16,37 @@ import { Pie } from 'react-chartjs-2';
 import axios from 'axios'
 
 
-
-
-
 function Dashboard() { 
 
   const [entityNumbers, setEntityNumbers] = useState({
+
     tickets: 0,
     projects: 0,
     companies: 0,
-    users: 0
+    users: 0,
+
+    newStatus: 0,
+    developmentStatus: 0,
+    testingStatus: 0,
+    resolvedStatus: 0, 
+
    });
 
    useEffect(() => {
     axios.get('https://localhost:7110/home').then(res => {
       setEntityNumbers({
-        tickets: res.data.Tickets,
-        projects: res.data.Projects,
-        companies: res.data.Companies,
-        users: res.data.Users
-      })
-    }) }, []
-  )   
+        tickets: res.data.NumberOfTickets, 
+        projects: res.data.NumberOfProjects,
+        companies: res.data.NumberofCompanies,
+        users: res.data.NumberOfUsers,
+
+        newStatus: res.data.NumberOfTicketsInNewStatus,
+        developmentStatus: res.data.NumberOfTicketsInDevelopmentStatus,
+        testingStatus: res.data.NumberOfTicketsInTestingStatus,
+        resolvedStatus: res.data.NumberOfTicketsInResolvedStatus,
+      })      
+    })
+  }, [])   
 
 
   return (
@@ -86,14 +95,30 @@ function Dashboard() {
       </Space>
       <Space>
         <RecentTickets />
-        <Charts />
+
+
+        <Chart 
+          firstRecord={entityNumbers.tickets}   firstTitle={"Tickets"} 
+          secondRecord={entityNumbers.projects} //secondTitle={"Projects"}
+          // thirdRecord={entityNumbers.companies} thirdTitle={"Companies"}
+          // fourthRecord={entityNumbers.users}    fourthTitle={"Users"}
+        />
+
+
+        <Chart 
+          // firstRecord={entityNumbers.newStatus} firstTitle={"New Status"}         
+          // secondRecord={entityNumbers.developmentStatuss} secondTitle={"Development Status"}
+          // thirdRecord={entityNumbers.testingStatus} thirdTitle={"Testing Status"}
+          // fourthRecord={entityNumbers.resolvedStatus} fourthTitle={"Resolved Status"}
+        />
+
       </Space>
     </Space>
   );
 }
 
 
-function Charts(){
+const Chart = () => {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const [entityNumbers, setEntityNumbers] = useState({
@@ -111,23 +136,24 @@ function Charts(){
         companies: res.data.Companies,
         users: res.data.Users
       })
-
-      console.log(res.data)
     }) }, []
   )   
-     
-
-    
+        
   const data = {
     labels: [
-        "Tickets",
-        "Projects",
-        "Companies",
-        "Users"
+        firstTitle,
+        secondTitle,
+        thirdTitle,
+        fourthTitle
     ],
     datasets: [
         {
-            data: [entityNumbers.tickets, entityNumbers.projects, entityNumbers.companies, entityNumbers.users ],
+            data: [
+              firstRecord,    
+              secondRecord,       
+              thirdRecord,       
+              fourthRecord         
+            ],
             backgroundColor: [
                 "blue",
                 "yellow",
@@ -142,14 +168,22 @@ function Charts(){
             ],
             hoverBorderColor: "#fff"
         }]
-};
+}
 
   return(
     <>
+      {firstRecord} {firstTitle} {secondRecord}
+
       <Card bodyStyle={{border : "1px solid black", width: 500, height: 350}}> <Pie width={474} height={260} data={data} /> </Card>
     </>
   )
 }
+
+
+
+
+
+
 
 function RecentTickets() {
   const [dataSource, setDataSoruce] = useState([]);
