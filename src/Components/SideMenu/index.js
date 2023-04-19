@@ -1,18 +1,18 @@
 import {Menu, Layout} from 'antd';
 import {AppstoreOutlined, UserOutlined, ProjectOutlined, UsergroupDeleteOutlined, TabletOutlined} from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom'
+import { Common } from '../../utils/Common';
 
 const { Sider } = Layout;
 
 
 function SideMenu() {
-  const navigate = useNavigate();
+
     return (
       <div className="SideMenu" >         
         <Menu mode='inline' style={{ height:"100vh", backgroundImage: "linear-gradient(170deg,#2A52BE,#01D2FE)", color: "white"}}
           onClick={(item) => {
             //item.key
-            navigate(item.key);
+            Common.navigate(item.key);
           }}
           items={[
 

@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import axios from "axios"
 
-const ticketsBaseUrl = 'https://localhost:7110/Tickets';
-const baseUrl = 'https://localhost:7110';
-const homeBaseUrl = 'https://localhost:7110/home';
+export const ticketsBaseUrl = 'https://localhost:7110/Tickets';
+export const baseUrl = 'https://localhost:7110';
+export const homeBaseUrl = 'https://localhost:7110/home';
 
 
 //used in dashboard for charts and small cards
@@ -24,8 +24,9 @@ export function GetAllTickets() {
 
 export function GetAllCompanies() {
   return (
-    fetch(`${baseUrl}/companies`)
-      .then(res => {console.log(res.json())})
+    axios.get(`${baseUrl}/Companies`).then(res => {
+      return res.data
+    })         
       
   )
 }

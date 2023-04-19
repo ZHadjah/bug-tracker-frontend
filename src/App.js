@@ -8,18 +8,29 @@ import AppFooter from './Components/AppFooter'
 import SideMenu from './Components/SideMenu'
 import PageContent from './Components/PageContent'
 import {Space} from 'antd';
+import AppRoutes from "./Components/AppRoutes";
+
 
 function App() {
   return (
+
     <>
-      <div style={{height: 'calc(100vh - 50px)'}}>
-        <AppHeader />
-        <Space className="SideMenuAndPageContent">
-          <SideMenu></SideMenu>
-          <PageContent></PageContent>
-        </Space>
-      </div>
-      <AppFooter/>
+      <AppRoutes />
+
+
+
+
+
+      {/* <div className="">
+        <div style={{height: 'calc(100vh - 50px)'}}>
+          <AppHeader />
+          <Space className="SideMenuAndPageContent">
+            <SideMenu></SideMenu>
+            <PageContent></PageContent>
+          </Space>
+        </div>
+        <AppFooter/>
+      </div> */}
     </>
   );
 }

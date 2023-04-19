@@ -43,42 +43,29 @@ function Dashboard() {
 
    });
 
-  //  useEffect(() => {
-  //   axios.get('https://localhost:7110/home').then(res => {
-  //     setEntityNumbers({
+   useEffect(() => {
+    axios.get('https://localhost:7110/home').then(res => {
+      setEntityNumbers({
+        tickets: res.data.NumberOfTickets, 
+        projects: res.data.NumberOfProjects,
+        companies: res.data.NumberofCompanies,
+        users: res.data.NumberOfUsers,
 
+        newStatus: res.data.NumberOfTicketsInNewStatus,
+        developmentStatus: res.data.NumberOfTicketsInDevelopmentStatus,
+        testingStatus: res.data.NumberOfTicketsInTestingStatus,
+        resolvedStatus: res.data.NumberOfTicketsInResolvedStatus,
 
-  useEffect(() => {
-  axios.get(data).then(res => {
-        setEntityNumbers({
-
-
-
-
-        // tickets: res.data.NumberOfTickets, 
-        // projects: res.data.NumberOfProjects,
-        // companies: res.data.NumberofCompanies,
-        // users: res.data.NumberOfUsers,
-
-
-        // newStatus: res.data.NumberOfTicketsInNewStatus,
-        // developmentStatus: res.data.NumberOfTicketsInDevelopmentStatus,
-        // testingStatus: res.data.NumberOfTicketsInTestingStatus,
-        // resolvedStatus: res.data.NumberOfTicketsInResolvedStatus,
-
-
-        // urgentPriority: res.data.NumberOfTicketsInUrgentPriority,
-        // highPriority: res.data.NumberOfTicketsInHighPriority,
-        // mediumPriority: res.data.NumberOfTicketsInMediumPriority,
-        // lowPriority: res.data.NumberOfTicketsInLowPriority,
-
+        urgentPriority: res.data.NumberOfTicketsInUrgentPriority,
+        highPriority: res.data.NumberOfTicketsInHighPriority,
+        mediumPriority: res.data.NumberOfTicketsInMediumPriority,
+        lowPriority: res.data.NumberOfTicketsInLowPriority,
 
         newDevType: res.data.NumberOfTicketsInNewDevType,
         workTaskType: res.data.NumberOfTicketsInWorkTaskType,
         defectType: res.data.NumberOfTicketsInDefectType,
         enhancementType: res.data.NumberOfTicketsInEnhancementType,
         changeRequestType: res.data.NumberOfTicketsInChangeRequestType
-
       })      
     }).then(console.log(`new dev = ${entityNumbers.newDevType}\n,worktask = ${entityNumbers.workTaskType}\n,enhancement =  ${entityNumbers.enhancementType}\n,change req = ${entityNumbers.changeRequestType}`))
   }, [])   
@@ -129,8 +116,6 @@ function Dashboard() {
         ></DashboardCard>
       </Space>
       <Space>
-        <RecentTickets />
-
         {/* overall tickets chart */}
         <Chart 
           firstRecord={entityNumbers.tickets}   firstTitle={"Tickets"} 
@@ -159,7 +144,6 @@ function Dashboard() {
           fifthRecord={null}                         fifthTitle={null}
         />
 
-
         {/* Ticket Type chart */}
         <Chart 
           firstRecord={entityNumbers.NumberOfTicketsInDefectType}        firstTitle={"Defect Type"}         
@@ -170,6 +154,12 @@ function Dashboard() {
         />
 
       </Space>
+
+      <Space>
+        <RecentTickets />
+      </Space>
+
+
     </Space>
   );
 }
@@ -186,7 +176,7 @@ const Chart = ({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthReco
         secondTitle,
         thirdTitle,
         fourthTitle,
-        fifthTitle === null ? null : fifthTitle 
+        fifthTitle !== null ? fifthTitle : null 
     ],
     datasets: [
         {
@@ -195,21 +185,21 @@ const Chart = ({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthReco
               secondRecord,       
               thirdRecord,       
               fourthRecord,
-              fifthRecord === null ? null : fifthRecord 
+              fifthRecord !== null ? fifthRecord : null 
             ],
             backgroundColor: [
                 "blue",
                 "yellow",
                 "red",
                 "green",
-                fifthRecord && fifthTitle === null ? null : "orange"
+                "orange"
             ],
             hoverBackgroundColor: [
                 "#1919ff",
                 "#ffff7f",
                 "#ff6f6f",
                 "#4ca64c",
-                fifthRecord && fifthTitle === null ? null : "#ffc04d"
+                "#ffc04d"
             ],
             hoverBorderColor: "#fff"
         }]
