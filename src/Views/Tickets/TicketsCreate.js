@@ -1,7 +1,7 @@
 import { Button, Form, Input, InputNumber, Card, Upload, Select } from "antd";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import axios from 'axios'
+import axios from "axios";
 import { baseUrl } from "../../API";
 
 const { Option } = Select;
@@ -24,20 +24,36 @@ const validateMessages = {
 };
 
 function TicketsCreate() {
-  const [users, setUsers] = useState([""]);
-
+  const [ticketTypes, setTicketTypes] = useState([]);
+  const [ticketPriorities, setTicketPriorities] = useState([]);
+  const [ticketStatus, setTicketStatus] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
+
   useEffect(() => {
+    axios.get(`${baseUrl}/TicketTypes/Options`).then((res) => {
+      setTicketTypes(res.data);
+    });
+
+    axios.get(`${baseUrl}/TicketPriorities/Options`).then((res) => {
+      setTicketPriorities(res.data);
+    });
+
+    axios.get(`${baseUrl}/TicketStatus/Options`).then((res) => {
+      setTicketStatus(res.data);
+    });
+
     axios.get(`${baseUrl}/Projects`).then((res) => {
       setProjects(res.data.$values);
-      console.log(projects);
+    });
+
+    axios.get(`${baseUrl}/UserRoles/GetAllUsersInCompany`).then((res) => {
+      setUsers(res.data);
     });
   }, []);
 
+  console.log(users)
 
-  
-
-  
   return (
     <div className="Create-Container">
       <Card>
@@ -82,10 +98,10 @@ function TicketsCreate() {
               },
             ]}
           >
-           <Select placeholder="Select a project">
+            <Select placeholder="Select a project">
               {projects.map((project) => (
                 <Option value={project.id} key={project.id}>
-                  {project.name}
+                  {project}
                 </Option>
               ))}
             </Select>
@@ -93,50 +109,73 @@ function TicketsCreate() {
 
           <Form.Item
             name="ticketType"
-            label="Ticket Type" 
+            label="Ticket Type"
             rules={[
               {
                 required: true,
               },
-            ]}                      
+            ]}
           >
-            <Select placeholder="Please select a project">
-              <Option value="china">China</Option>
-              <Option value="usa">U.S.A</Option>
+            <Select placeholder="Select a type">
+              {ticketTypes.map((type, index) => (
+                  <Option key={index}>
+                    {type.Value}
+                  </Option>
+                ))}      
             </Select>
           </Form.Item>
 
-
           <Form.Item
             name="ticketPriority"
-            label="Ticket Priority"     
+            label="Ticket Priority"
             rules={[
               {
                 required: true,
               },
-            ]}                  
+            ]}
           >
-            <Select placeholder="Please select a project">
-              <Option value="china">China</Option>
-              <Option value="usa">U.S.A</Option>
+            <Select placeholder="Select a Priority">
+              {ticketPriorities.map((priority, index) => (
+                <Option key={index}>
+                  {priority.Value}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
 
           <Form.Item
             name="ticketStatus"
-            label="Ticket Status"  
+            label="Ticket Status"
             rules={[
               {
                 required: true,
               },
-            ]}                     
+            ]}
           >
             <Select placeholder="Please select a project">
+              {ticketStatus.map((status, index) => (
+                    <Option key={index}>
+                      {status.Value}
+                    </Option>
+                  ))}   
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="Owner"
+            label="Owner"
+            hasFeedback
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select placeholder="Select who owns this ticket">
               <Option value="china">China</Option>
               <Option value="usa">U.S.A</Option>
             </Select>
           </Form.Item>
-          
 
           <Form.Item
             name="Developer"
@@ -148,9 +187,12 @@ function TicketsCreate() {
               },
             ]}
           >
-            <Select>
-              <Option value="china">China</Option>
-              <Option value="usa">U.S.A</Option>
+            <Select placeholder="Select a Developer">
+            {users.map((user, index) => (
+                    <Option key={index}>
+                      {user.FullName}
+                    </Option>
+            ))}   
             </Select>
           </Form.Item>
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Form, Input, Card, Space } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
 import { actionLoggedSuccess, actionSetToken, } from "../../redux/actions/authAction";
 import MainLogo from "../../Images/InternalIssuesTicket.png";
 import { setToken } from "../../utils/appUtils";
@@ -140,10 +139,6 @@ function Login(props) {
             <Button
               type="primary"
               onClick={event => {
-                /*setLoginInfo({
-                  email: "demoadmin@bugtracker.com",
-                  password: "Abc&123",
-                });*/
                 onSubmitLogin(event, {
                   email: "demoadmin@bugtracker.com",
                   password: "Abc&123",
@@ -155,10 +150,6 @@ function Login(props) {
             <Button
               type="primary"
               onClick={event => {
-                /*setLoginInfo({
-                  email: "demoadmin@bugtracker.com",
-                  password: "Abc&123",
-                });*/
                 onSubmitLogin(event, {
                   email: "demopm@bugtracker.com",
                   password: "Abc&123",
@@ -171,10 +162,6 @@ function Login(props) {
             <Button
               type="primary"
               onClick={event => {
-                /*setLoginInfo({
-                  email: "demoadmin@bugtracker.com",
-                  password: "Abc&123",
-                });*/
                 onSubmitLogin(event, {
                   email: "demodev@bugtracker.com",
                   password: "Abc&123",
@@ -186,10 +173,6 @@ function Login(props) {
             <Button
               type="primary"
               onClick={event => {
-                /*setLoginInfo({
-                  email: "demoadmin@bugtracker.com",
-                  password: "Abc&123",
-                });*/
                 onSubmitLogin(event, {
                   email: "demosub@bugtracker.com",
                   password: "Abc&123",
