@@ -1,3 +1,8 @@
+body {
+  display: block !important;
+  width: 100%;
+  overflow: hidden !important;
+}
 .App{
   display: flex;
   flex-direction: column;
@@ -12,7 +17,9 @@
   padding: 4px 20px 4px 12px;
   border-bottom: 1px solid rgba(0,0,0,0.15);
 }
+
 .AppFooter{
+
   height: 50px;
   display: flex;
   justify-content: space-evenly;
@@ -47,5 +54,4 @@
 
 .Create-Container{
   padding: 95px 0px 0px 120px;
-
 }

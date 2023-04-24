@@ -15,7 +15,6 @@ function SideMenu() {
             Common.navigate(item.key);
           }}
           items={[
-
             {
               label:"Dashboard",
               icon: <AppstoreOutlined />,

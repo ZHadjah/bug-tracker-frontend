@@ -31,10 +31,7 @@ function AppRoutes() {
             <Route path="/Projects/Create" element={<ProjectsCreate />}></Route>
 
             <Route path="/Companies" element={<CompaniesRead />}></Route>
-            <Route
-              path="/Companies/Create"
-              element={<CompaniesCreate />}
-            ></Route>
+            <Route path="/Companies/Create" element={<CompaniesCreate />}></Route>
 
             <Route path="/Users" element={<ManageUserRoles />}></Route>
           </Route>

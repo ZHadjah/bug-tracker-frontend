@@ -16,7 +16,6 @@ import { Pie } from 'react-chartjs-2';
 import axios from 'axios'
 import data from '../../ChartExample.json'
 
-
 function Dashboard() { 
 
   const [entityNumbers, setEntityNumbers] = useState({
@@ -72,7 +71,7 @@ function Dashboard() {
 
 
   return (
-    <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} size={60} direction="vertical">
+    <Space style={{ display: 'flex', alignItems: 'start', justifyContent: 'center' }} size={60} direction="vertical">
       <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: "20px"}} direction="horizontal">
         <DashboardCard id="testing"
           bgColor={"#01D2FE"}
@@ -164,7 +163,6 @@ function Dashboard() {
   );
 }
 
-
 const Chart = ({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthRecord,
                  firstTitle, secondTitle, thirdTitle, fourthTitle, fifthTitle }) => {
 
@@ -211,12 +209,6 @@ const Chart = ({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthReco
     </>
   )
 }
-
-
-
-
-
-
 
 function RecentTickets() {
   const [dataSource, setDataSoruce] = useState([]);
