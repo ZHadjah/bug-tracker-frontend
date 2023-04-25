@@ -1,4 +1,4 @@
-#bug-tracker-frontend
+# bug-tracker-frontend
 
 This project is the client side portion of my bug tracking application (click this link to view the backend: https://github.com/ZHadjah/BugTracker_Backend). The Bug Tracker is a multi tenant bug tracking application that will allow developers to keep track of issues that arise on their projects.
 
