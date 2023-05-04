@@ -52,6 +52,18 @@ body {
   width: 175px;
 }
 
-.Create-Container{
-  padding: 95px 0px 0px 120px;
+.Tickets-Create-Container{
+  padding: 23px 0px 0px 120px;
+}
+
+.Tickets-Read-Card{
+  margin: 23px 23px;
+}
+
+.Companies-Read-Container{
+  margin: 23px 23px;
+}
+
+.Projects-Create-Container{
+  margin: 23px 23px;
 }

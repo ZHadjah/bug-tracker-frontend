@@ -40,7 +40,7 @@ function SideMenu() {
               label:"Projects",
               icon: <ProjectOutlined />,
               children:[
-                { label: "Create A Project", key:"Projects Create", key: '/ProjectsCreate'},
+                { label: "Create A Project", key:"Projects Create", key: '/Projects/Create'},
                 { label: "View All Projects",   key:"Projects Read",    key: '/Projects'},
               ], 
             },

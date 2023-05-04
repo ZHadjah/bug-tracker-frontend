@@ -17,14 +17,9 @@ function ProjectsRead() {
       setLoading(true);
       
       axios.get('https://localhost:7110/projects').then(res => {
-        console.log(res.data)
+        setDataSoruce(res.data.$values);
+        setLoading(false);
       })   
-      
-      //GetAllProjects().then((res) => {
-      //   setDataSoruce(res.$values);
-      //   setLoading(false);
-  
-      // });
     }, []);
   
     //Modal Logic
@@ -114,6 +109,4 @@ function ProjectsRead() {
       </div>
     )
   }
-
-
 export default ProjectsRead

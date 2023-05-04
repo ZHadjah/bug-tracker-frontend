@@ -66,12 +66,12 @@ function Dashboard() {
         enhancementType: res.data.NumberOfTicketsInEnhancementType,
         changeRequestType: res.data.NumberOfTicketsInChangeRequestType
       })      
-    }).then(console.log(`new dev = ${entityNumbers.newDevType}\n,worktask = ${entityNumbers.workTaskType}\n,enhancement =  ${entityNumbers.enhancementType}\n,change req = ${entityNumbers.changeRequestType}`))
+    })
   }, [])   
 
 
   return (
-    <Space style={{ display: 'flex', alignItems: 'start', justifyContent: 'center' }} size={60} direction="vertical">
+    <Space style={{ display: 'flex', alignItems: 'start', justifyContent: 'center', backgroundColor: 'white' }} size={60} direction="vertical">
       <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: "20px"}} direction="horizontal">
         <DashboardCard id="testing"
           bgColor={"#01D2FE"}
@@ -224,7 +224,6 @@ function RecentTickets() {
 
   return (
     <>
-      <Typography.Title>charts</Typography.Title>
       <Table
         columns={[
           {

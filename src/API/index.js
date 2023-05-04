@@ -56,12 +56,10 @@ export async function DeleteTicket(id) {
         .then((res) =>{
           if(!res.ok){
             console.log("error")
-            console.log(id)
 
           }       
           else if (res.ok){
             console.log('worked')
-            console.log(id)
 
           }   
         })

@@ -20,14 +20,9 @@ function CompaniesRead() {
     setLoading(true);
     
     axios.get('https://localhost:7110/companies').then(res => {
-      console.log(res.data)
-    })   
-    
-    //GetAllCompanies().then((res) => {
-    //   setDataSoruce(res.$values);
-    //   setLoading(false);
-
-    // });
+      setDataSoruce(res.data.$values);
+      setLoading(false);
+    });   
   }, []);
 
   //Modal Logic
@@ -60,7 +55,7 @@ function CompaniesRead() {
   };
 
   return (
-    <div className='Companies_Read_Container'>
+    <div className='Companies-Read-Container'>
       <Card>
         <Table 
           columns={[

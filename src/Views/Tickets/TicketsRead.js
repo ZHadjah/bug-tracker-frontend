@@ -6,6 +6,7 @@ import { Typography, Modal } from "antd";
 import { Link } from 'react-router-dom'
 import { TicketsDelete} from './TicketsDelete.js'
 import { TicketsUpdate} from './TicketsUpdate.js'
+import axios from 'axios'
 
 function TicketsRead() {
   const [dataSource, setDataSoruce] = useState([]);
@@ -16,10 +17,10 @@ function TicketsRead() {
   //Tickets fetch logic 
   useEffect(() => {
     setLoading(true);
-    GetAllTickets().then((res) => {
-      setDataSoruce(res.$values);
+    axios.get('https://localhost:7110/Tickets').then(res => {
+      setDataSoruce(res.data.$values);
       setLoading(false);
-    });
+    });   
   }, []);
 
   //Modal Logic
@@ -30,14 +31,11 @@ function TicketsRead() {
     isShow: false,
   });
   
-  // function showModal(newModalTitle, id, title, ticketDescription, project, priority, status,
-  //                    type, size, ownerUser, developerUser){
      function showModal(newModalTitle, id, ticketDescription){
     setDlgModalInfo({
       modalTitle: newModalTitle,
       id,
       isShow: true,
-      
     })
   };
   function handleOk(){
@@ -54,9 +52,8 @@ function TicketsRead() {
   };
 
   return (
-    <>
-      <Typography.Title level={3}>TicketsRead</Typography.Title>
-      <Card>
+    <div className="Tickets-Read-Card">
+      <Card className="Tickets-Read-Table">
         <Table 
           columns={[
             {
@@ -95,7 +92,7 @@ function TicketsRead() {
                                                        :       
                                              <TicketsDelete id={dlgModalInfo.id}/>}
       </Modal>
-    </>
+    </div>
   );
 }
 export default TicketsRead;

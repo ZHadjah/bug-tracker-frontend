@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { baseUrl } from "../../API";
+import store from "../../redux/store";
+import { getToken } from "../../utils/appUtils";
 
 const { Option } = Select;
 
@@ -47,15 +49,19 @@ function TicketsCreate() {
       setProjects(res.data.$values);
     });
 
-    axios.get(`${baseUrl}/UserRoles/GetAllUsersInCompany`).then((res) => {
-      setUsers(res.data);
-    });
+    axios
+      .get(`${baseUrl}/UserRoles/GetAllUsersInCompany`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      })
+      .then((res) => {
+        setUsers(res.data);
+      });
   }, []);
 
-  console.log(users)
-
   return (
-    <div className="Create-Container">
+    <div className="Tickets-Create-Container">
       <Card>
         <Form
           {...layout}
@@ -101,7 +107,7 @@ function TicketsCreate() {
             <Select placeholder="Select a project">
               {projects.map((project) => (
                 <Option value={project.id} key={project.id}>
-                  {project}
+                  {project.name}
                 </Option>
               ))}
             </Select>
@@ -118,10 +124,8 @@ function TicketsCreate() {
           >
             <Select placeholder="Select a type">
               {ticketTypes.map((type, index) => (
-                  <Option key={index}>
-                    {type.Value}
-                  </Option>
-                ))}      
+                <Option key={index}>{type.Value}</Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -136,9 +140,7 @@ function TicketsCreate() {
           >
             <Select placeholder="Select a Priority">
               {ticketPriorities.map((priority, index) => (
-                <Option key={index}>
-                  {priority.Value}
-                </Option>
+                <Option key={index}>{priority.Value}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -154,10 +156,8 @@ function TicketsCreate() {
           >
             <Select placeholder="Please select a project">
               {ticketStatus.map((status, index) => (
-                    <Option key={index}>
-                      {status.Value}
-                    </Option>
-                  ))}   
+                <Option key={index}>{status.Value}</Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -172,8 +172,9 @@ function TicketsCreate() {
             ]}
           >
             <Select placeholder="Select who owns this ticket">
-              <Option value="china">China</Option>
-              <Option value="usa">U.S.A</Option>
+              {users.map((user, index) => (
+                <Option key={index}>{user.FullName}</Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -188,11 +189,9 @@ function TicketsCreate() {
             ]}
           >
             <Select placeholder="Select a Developer">
-            {users.map((user, index) => (
-                    <Option key={index}>
-                      {user.FullName}
-                    </Option>
-            ))}   
+              {users.map((user, index) => (
+                <Option key={index}>{user.FullName}</Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -222,9 +221,16 @@ function TicketsCreate() {
               </Upload>
             </Form.Item>
 
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
           </Form.Item>
         </Form>
       </Card>

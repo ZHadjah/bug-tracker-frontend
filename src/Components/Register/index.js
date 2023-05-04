@@ -16,7 +16,6 @@ const { Option } = Select;
 
 function Register(props) {
   const navigate = useNavigate();
-  console.log("props==>>", props);
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
