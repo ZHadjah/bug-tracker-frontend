@@ -21,20 +21,17 @@ function SideMenu() {
               key: '/'
             },
             {
+              label:"View All Companies",
+              icon: <UsergroupDeleteOutlined />,
+              key: '/Companies'           
+            },
+            {
               label:"Tickets",
               icon: <TabletOutlined />,
               children:[ 
                 { label: "Create A Ticket", key:"TicketsCreate", key: '/Tickets/Create'},
                 { label: "View All Tickets",   key:"Tickets Read",    key: '/Tickets'},
               ],
-            },
-            {
-              label:"Companies",
-              icon: <UsergroupDeleteOutlined />,
-              children:[ 
-                { label: "Create A Company", key:"Companies Create"},
-                { label: "View All Companies",   key:"Companies Read",    key: '/Companies'},
-              ],             
             },
             {
               label:"Projects",

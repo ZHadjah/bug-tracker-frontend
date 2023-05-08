@@ -13,7 +13,7 @@ const layout = {
 };
 
 function ManageUserRoles() {
-  const [dataSource, setDataSoruce] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [id, setId] = useState(1);
@@ -28,11 +28,20 @@ function ManageUserRoles() {
         Authorization: `Bearer ${getToken()}`,
       },
     }).then((res) => {
-      setRoles(res.data.$values[0].roles.$values)
+      setRoles(res.data.$values[0].roles.$values);
     });
+
+    axios.get("https://localhost:7110/UserRoles/ManageUserRoles", {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }).then((res) => {
+      setDataSource(res.data.$values);
+    });
+
   }, []);
 
-  console.log(roles);
+  console.log(dataSource);
 
   //Modal Logic
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,7 +50,6 @@ function ManageUserRoles() {
     companyId: 0,
     isShow: false,
   });
-
   function showModal(newModalTitle, id) {
     setDlgModalInfo({
       modalTitle: newModalTitle,
@@ -69,17 +77,17 @@ function ManageUserRoles() {
           <Table
             columns={[
               {
-                title: "FirstName",
+                title: "FisrtName",
                 dataIndex: "FirstName",
               },
-              {
-                title: "LastName",
-                dataIndex: "LastName",
-              },
-              {
-                title: "Role",
-                dataIndex: "***",
-              },
+              // {
+              //   title: "LastName",
+              //   dataIndex: "lastName",
+              // },
+              // {
+              //   title: "Role",
+              //   dataIndex: "***",
+              // },
               {
                 // key: "action",
                 render: (_, record) => {

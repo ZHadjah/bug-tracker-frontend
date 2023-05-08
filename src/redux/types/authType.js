@@ -1,5 +1,5 @@
 export const authType = {
-    // SET_TOTKEN: "authType_setToken",
+    // SET_TOKEN: "authType_setToken",
 
     LOGIN_REQUEST: "authType_LOGIN_TOKEN",
 

@@ -20,6 +20,8 @@ body {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
-  
-  .login-card{
+
+  .login-card-container{
+    width: 480px;
+    height: calc(100vh - 50px);
   }

@@ -50,6 +50,7 @@ function TicketsRead() {
       isShow: false
     })
   };
+  console.log(dataSource);
 
   return (
     <div className="Tickets-Read-Card">

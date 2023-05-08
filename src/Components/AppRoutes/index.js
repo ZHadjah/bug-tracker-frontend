@@ -7,7 +7,6 @@ import ProjectsRead from "../../Views/Projects/ProjectsRead";
 import ManageUserRoles from "../../Views/UserRoles/ManageUserRoles";
 import TicketsCreate from "../../Views/Tickets/TicketsCreate";
 import ProjectsCreate from "../../Views/Projects/ProjectsCreate";
-import CompaniesCreate from "../../Views/Companies/CompaniesCreate";
 import Login from "../../Components/Login";
 import Register from "../../Components/Register";
 import MainLayout from "../MainLayout";
@@ -31,7 +30,6 @@ function AppRoutes() {
             <Route path="/Projects/Create" element={<ProjectsCreate />}></Route>
 
             <Route path="/Companies" element={<CompaniesRead />}></Route>
-            <Route path="/Companies/Create" element={<CompaniesCreate />}></Route>
 
             <Route path="/Users" element={<ManageUserRoles />}></Route>
           </Route>

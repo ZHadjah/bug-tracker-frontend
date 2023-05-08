@@ -17,7 +17,6 @@ import axios from 'axios'
 import data from '../../ChartExample.json'
 
 function Dashboard() { 
-
   const [entityNumbers, setEntityNumbers] = useState({
     tickets: 0,
     projects: 0,
@@ -115,6 +114,7 @@ function Dashboard() {
         ></DashboardCard>
       </Space>
       <Space>
+
         {/* overall tickets chart */}
         <Chart 
           firstRecord={entityNumbers.tickets}   firstTitle={"Tickets"} 
@@ -144,27 +144,29 @@ function Dashboard() {
         />
 
         {/* Ticket Type chart */}
+        
         <Chart 
-          firstRecord={entityNumbers.NumberOfTicketsInDefectType}        firstTitle={"Defect Type"}         
-          secondRecord={entityNumbers.NumberOfTicketsInNewDevType}       secondTitle={"New Development Type"}
-          thirdRecord={entityNumbers.NumberOfTicketsInWorkTaskType}      thirdTitle={"Work Task Type"}
-          fourthRecord={entityNumbers.NumberOfTicketsInEnhancementType}  fourthTitle={"Enhancement Type"}
-          fifthRecord={entityNumbers.NumberOfTicketsInChangeRequestType} fifthTitle={"Change Request Type"}
-        />
-
+            firstRecord={entityNumbers.defectType}        firstTitle={"Defect Type"}         
+            secondRecord={entityNumbers.newDevType}       secondTitle={"New Development Type"}
+            thirdRecord={entityNumbers.workTaskType}      thirdTitle={"Work Task Type"}
+            fourthRecord={entityNumbers.enhancementType}  fourthTitle={"Enhancement Type"}
+            fifthRecord={entityNumbers.changeRequestType} fifthTitle={"Change Request Type"}
+            options={{
+              responsive: true,
+              maintainAspectRatio: true,
+            }}
+          />
       </Space>
 
       <Space>
         <RecentTickets />
       </Space>
-
-
     </Space>
   );
 }
 
-const Chart = ({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthRecord,
-                 firstTitle, secondTitle, thirdTitle, fourthTitle, fifthTitle }) => {
+function Chart({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthRecord,
+                 firstTitle, secondTitle, thirdTitle, fourthTitle, fifthTitle }){
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -202,6 +204,7 @@ const Chart = ({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthReco
             hoverBorderColor: "#fff"
         }]
 }
+
 
   return(
     <>

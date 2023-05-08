@@ -21,7 +21,10 @@ code {
     monospace;
 }
 
-
 .register-card{
   margin-top: 100px;
+  width: 400px;
+  margin: 0 auto ;
+  align-items: center;
+  
 }

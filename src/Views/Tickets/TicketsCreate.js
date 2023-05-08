@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Card, Upload, Select } from "antd";
+import { Button, Form, Input, InputNumber, Card, Upload, Select, Space } from "antd";
 import React, { useState, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -7,7 +7,6 @@ import store from "../../redux/store";
 import { getToken } from "../../utils/appUtils";
 
 const { Option } = Select;
-
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -31,6 +30,18 @@ function TicketsCreate() {
   const [ticketStatus, setTicketStatus] = useState([]);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
+  const [data, setData] = useState({
+    title: "",
+    description: "",
+    project: "",
+    type: "",
+    status: "",
+    priority: "",
+    owner: "",
+    developer: "",
+    comments: "",
+  });
+
 
   useEffect(() => {
     axios.get(`${baseUrl}/TicketTypes/Options`).then((res) => {
@@ -46,7 +57,7 @@ function TicketsCreate() {
     });
 
     axios.get(`${baseUrl}/Projects`).then((res) => {
-      setProjects(res.data.$values);
+      setProjects(res.data["$values"]);
     });
 
     axios
@@ -57,20 +68,50 @@ function TicketsCreate() {
       })
       .then((res) => {
         setUsers(res.data);
+        debugger
       });
   }, []);
+
+
+  function handleChange(e) {
+    const value = e.target.value;
+    setData({
+      ...data,
+      [e.target.name]: value
+    });
+  };
+
+  function handleProjectChange(value) {
+    setData({
+      ...data,
+      project: value
+    });
+  }
+
+  function onSubmit(values)  { 
+    axios
+      .post(`${baseUrl}/Tickets/Create`, values).then((response) => {
+        console.log(response);
+        }).catch((error) => {
+        console.log(error);
+        })
+   };
 
   return (
     <div className="Tickets-Create-Container">
       <Card>
-        <Form
+      <Form
           {...layout}
           name="nest-messages"
           style={{
             maxWidth: 600,
           }}
           validateMessages={validateMessages}
+          onSubmitCapture={(values) => onSubmit(values)}
         >
+
+        <Space direction="vertical">
+        
           <Form.Item
             name="title"
             label="Title"
@@ -80,7 +121,7 @@ function TicketsCreate() {
               },
             ]}
           >
-            <Input />
+            <Input name="title" value={data.title} onChange={handleChange}/>
           </Form.Item>
           <Form.Item
             name="Description"
@@ -91,7 +132,7 @@ function TicketsCreate() {
               },
             ]}
           >
-            <Input />
+            <Input name="description" value={data.description} onChange={handleChange} />
           </Form.Item>
 
           <Form.Item
@@ -104,9 +145,9 @@ function TicketsCreate() {
               },
             ]}
           >
-            <Select placeholder="Select a project">
+            <Select placeholder="Select a project" name="project" value={data.project} onChange={handleProjectChange}>
               {projects.map((project) => (
-                <Option value={project.id} key={project.id}>
+                <Option  value={project.id} key={project.id}>
                   {project.name}
                 </Option>
               ))}
@@ -128,6 +169,12 @@ function TicketsCreate() {
               ))}
             </Select>
           </Form.Item>
+        </Space>
+
+        <Space direction="vertical">
+          
+        </Space>
+
 
           <Form.Item
             name="ticketPriority"
@@ -140,7 +187,7 @@ function TicketsCreate() {
           >
             <Select placeholder="Select a Priority">
               {ticketPriorities.map((priority, index) => (
-                <Option key={index}>{priority.Value}</Option>
+                <Option key={index} name="priority" value={data.priority} onChange={handleChange}>{priority.Value}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -156,7 +203,7 @@ function TicketsCreate() {
           >
             <Select placeholder="Please select a project">
               {ticketStatus.map((status, index) => (
-                <Option key={index}>{status.Value}</Option>
+                <Option key={index} onChange={handleChange}>{status.Value}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -173,7 +220,7 @@ function TicketsCreate() {
           >
             <Select placeholder="Select who owns this ticket">
               {users.map((user, index) => (
-                <Option key={index}>{user.FullName}</Option>
+                <Option key={index} name="owner" value={data.owner} onChange={handleChange}>{user.FullName}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -204,7 +251,7 @@ function TicketsCreate() {
               },
             ]}
           >
-            <Input.TextArea />
+            <Input.TextArea name="comments" value={data.comments} onChange={handleChange}/>
           </Form.Item>
           <Form.Item
             wrapperCol={{
@@ -235,7 +282,6 @@ function TicketsCreate() {
         </Form>
       </Card>
     </div>
-  );
+  )
 }
-
 export default TicketsCreate;
