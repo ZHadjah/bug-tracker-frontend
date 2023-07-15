@@ -28,7 +28,7 @@ function Login(props) {
     // axios call to backend login POST method
     authApiLogin(loginInfo.email, loginInfo.password, (response) => {
       if (!response) {
-        console.log("error === ");
+        console.log("error ");
         return;
       } else {
         //change global state value

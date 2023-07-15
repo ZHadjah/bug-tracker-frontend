@@ -17,6 +17,7 @@ function TicketsRead() {
   //Tickets fetch logic 
   useEffect(() => {
     setLoading(true);
+    
     axios.get('https://localhost:7110/Tickets').then(res => {
       setDataSoruce(res.data.$values);
       setLoading(false);

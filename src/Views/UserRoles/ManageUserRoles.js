@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Select, Space } from "antd";
-import { Typography, Modal, Card, Table, Form } from "antd";
+import { Typography, Modal, Card, Table, Form, Input, Button } from "antd";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { getToken } from "../../utils/appUtils";
@@ -20,6 +20,16 @@ function ManageUserRoles() {
   const [dropDownOptions, setDropDownOptions] = useState([]); 
   const [roles, setRoles] = useState([]); 
 
+
+  const [componentSize, setComponentSize] = useState('default');
+  const onFormLayoutChange = ({ size }) => {
+    setComponentSize(size);
+  };
+
+
+
+
+
   useEffect(() => {
     setLoading(true);
 
@@ -28,18 +38,11 @@ function ManageUserRoles() {
         Authorization: `Bearer ${getToken()}`,
       },
     }).then((res) => {
-      setRoles(res.data.$values[0].roles.$values);
-    });
-
-    axios.get("https://localhost:7110/UserRoles/ManageUserRoles", {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }).then((res) => {
       setDataSource(res.data.$values);
+      setLoading(false);
     });
-
   }, []);
+
 
   console.log(dataSource);
 
@@ -77,13 +80,17 @@ function ManageUserRoles() {
           <Table
             columns={[
               {
-                title: "FisrtName",
-                dataIndex: "FirstName",
+                title: "ID",
+                dataIndex: "$id"
               },
-              // {
-              //   title: "LastName",
-              //   dataIndex: "lastName",
-              // },
+              {
+                title: "Full Name",
+                dataIndex: ['btUser', 'fullName']
+              },
+              {
+                title: "Role",
+                dataIndex: "usersRole"
+              },
               // {
               //   title: "Role",
               //   dataIndex: "***",
@@ -110,34 +117,55 @@ function ManageUserRoles() {
           ></Table>
         </Card>
 
-        <Card>
-          <Form.Item
-            name="Role"
-            label="Role"
-            hasFeedback
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Select a Role">
-              {roles.map((role, index) => (
-                <Option value={role.id} key={role.id}>
-                  {role.value}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Card>
+
       </Space>
 
-      <Modal
-        title={dlgModalInfo.modalTitle}
-        open={dlgModalInfo.isShow}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      ></Modal>
+      <Modal title={dlgModalInfo.modalTitle} open={dlgModalInfo.isShow} onOk={handleOk} onCancel={handleCancel}>
+      
+
+          <Form
+          labelCol={{
+            span: 4,
+          }}
+          wrapperCol={{
+            span: 14,
+          }}
+          layout="horizontal"
+          initialValues={{
+            size: componentSize,
+          }}
+          onValuesChange={onFormLayoutChange}
+          size={componentSize}
+          style={{
+            maxWidth: 600,
+          }}
+        >
+         
+          <Form.Item label="Role">
+            <Input />
+          </Form.Item>
+          <Form.Item label="ID">
+            <Input />
+          </Form.Item>
+
+
+
+          <Form.Item label="Select">
+            <Select>
+              <Select.Option value="demo">Demo</Select.Option>
+            </Select>
+          </Form.Item>
+          
+          
+          
+          
+          
+          
+        </Form>
+
+          
+
+      </Modal>
     </>
   );
 }
