@@ -1,112 +1,55 @@
-import React, {useEffect, useState} from 'react'
-import { Space } from "antd";
-import { Typography, Modal, Card, Table } from "antd";
-import { Link } from 'react-router-dom'
-import { ProjectsDelete} from './ProjectsDelete.js'
-import { ProjectsUpdate} from './ProjectsUpdate.js'
-import axios from "axios"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import BootstrapModal from "../BootstrapModal";
+import BootstrapTable from "../BootstrapTable";
+import BootstrapViewGrid from "../BootstrapViewGrid";
 
 function ProjectsRead() {
+  const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [action, setAction] = useState(null);
 
-    const [dataSource, setDataSoruce] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [modalTitle, setModalTitle] = useState("");
-    const [id, setId] = useState(1);  
-  
-    useEffect(() => {
-      setLoading(true);
-      
-      axios.get('https://localhost:7110/projects').then(res => {
-        setDataSoruce(res.data.$values);
-        setLoading(false);
-      })   
-    }, []);
-  
-    //Modal Logic
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [dlgModalInfo, setDlgModalInfo] = useState({
-      modalTitle: "",
-      companyId: 0,
-      isShow: false,
+  useEffect(() => {
+    setLoading(true);
+    axios.get("https://localhost:7110/projects").then((res) => {
+      setDataSource(res.data.$values);
+      setLoading(false);
     });
-    
-       function showModal(newModalTitle, id){
-      setDlgModalInfo({
-        modalTitle: newModalTitle,
-        id,
-        isShow: true,
-        
-      })
-    };
-    function handleOk(){
-      setDlgModalInfo({
-        ...dlgModalInfo,
-        isShow: false
-      })
-    };
-    function handleCancel(){
-      setDlgModalInfo({
-        ...dlgModalInfo,
-        isShow: false
-      })
-    };
-  
-    return (
-      <div className='Projects_Read_Container'>
-        <Card>
-          <Table 
-            columns={[
-              {
-                title: "id",
-                dataIndex: "id"
-              },
-              {
-                title: "name",
-                dataIndex: "name",
-              },
-              
-              {
-                title: "tickets",
-                dataIndex: "tickets",
-              },
+  }, []);
 
-              {
-                title: "members",
-                dataIndex: "members",
-              },
-              {
-                title: "company",
-                dataIndex: "company",
-              },
-              {
-                title: "tickets",
-                dataIndex: "tickets",
-              },
-              {
-                // key: "action",
-                render: (_, record) => {
-                  return (
-                  <Space size="middle">                      
-                    <Link onClick={() =>showModal("Edit", record.id )}>Edit</Link>  
-                    <Link onClick={() =>showModal("Delete", record.id)}>Delete</Link> 
-                  </Space>
-                )},
-              },
-            ]}
-            loading={loading}
-            dataSource={dataSource}
-            pagination={true}
-          ></Table>
-        </Card>
-  
-        <Modal title={dlgModalInfo.modalTitle} open={dlgModalInfo.isShow} onOk={handleOk} onCancel={handleCancel}>
-  
-          {dlgModalInfo.modalTitle == "Edit" ? <ProjectsUpdate id={dlgModalInfo.id}/>                                                       
-                                                        :       
-                                               <ProjectsDelete id={dlgModalInfo.id}/>}
-        </Modal>
-  
+  return (
+    <BootstrapViewGrid>
+      <div className="card">
+        <div className="card-header">Projects</div>
+        <BootstrapTable
+          columns={[
+            { title: "ID", dataIndex: "id" },
+            { title: "Name", dataIndex: "name" },
+            { title: "Tickets", dataIndex: "tickets" },
+            { title: "Members", dataIndex: "members" },
+            { title: "Company", dataIndex: "company" },
+            {
+              title: "Actions",
+              key: "actions",
+              render: (_, project) => (
+                <div className="d-flex gap-3">
+                  <button className="btn btn-link p-0" onClick={() => setAction({ name: "Edit", id: project.id })}>Edit</button>
+                  <button className="btn btn-link text-danger p-0" onClick={() => setAction({ name: "Delete", id: project.id })}>Delete</button>
+                </div>
+              ),
+            },
+          ]}
+          loading={loading}
+          dataSource={dataSource}
+        />
       </div>
-    )
-  }
-export default ProjectsRead
+      {action && (
+        <BootstrapModal title={`${action.name} Project`} onClose={() => setAction(null)}>
+          <p className="mb-0">Project {action.id} {action.name.toLowerCase()} is not available yet.</p>
+        </BootstrapModal>
+      )}
+    </BootstrapViewGrid>
+  );
+}
+
+export default ProjectsRead;

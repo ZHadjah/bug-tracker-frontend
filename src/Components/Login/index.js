@@ -26,7 +26,7 @@ function Login(props) {
     event?.preventDefault();
     userandPass = userandPass || loginInfo
     // axios call to backend login POST method
-    authApiLogin(loginInfo.email, loginInfo.password, (response) => {
+    authApiLogin(userandPass.email, userandPass.password, (response) => {
       if (!response) {
         console.log("error ");
         return;
@@ -145,7 +145,7 @@ function Login(props) {
                 onClick={event => {
                   onSubmitLogin(event, {
                     email: "demoadmin@bugtracker.com",
-                    password: "Abc&123",
+                    password: "Abc&123!",
                   });
                 }}
               >
@@ -156,7 +156,7 @@ function Login(props) {
                 onClick={event => {
                   onSubmitLogin(event, {
                     email: "demopm@bugtracker.com",
-                    password: "Abc&123",
+                    password: "Abc&123!",
                   });
                 }}
               >
@@ -168,7 +168,7 @@ function Login(props) {
                 onClick={event => {
                   onSubmitLogin(event, {
                     email: "demodev@bugtracker.com",
-                    password: "Abc&123",
+                    password: "Abc&123!",
                   });
                 }}
               >
@@ -179,7 +179,7 @@ function Login(props) {
                 onClick={event => {
                   onSubmitLogin(event, {
                     email: "demosub@bugtracker.com",
-                    password: "Abc&123",
+                    password: "Abc&123!",
                   });
                 }}
               >

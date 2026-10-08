@@ -1,109 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table } from "antd";
-import { GetAllTickets } from "../../API";
-import { Space } from "antd";
-import { Typography, Modal } from "antd";
-import { Link } from 'react-router-dom'
-import GetAllCompanies from '../../API'
-import { CompaniesDelete} from './CompaniesDelete.js'
-import { CompaniesUpdate} from './CompaniesUpdate.js'
-import axios from "axios"
+import axios from "axios";
+import BootstrapModal from "../BootstrapModal";
+import BootstrapTable from "../BootstrapTable";
+import BootstrapViewGrid from "../BootstrapViewGrid";
 
 function CompaniesRead() {
-
-  const [dataSource, setDataSoruce] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [id, setId] = useState(1);  
+  const [action, setAction] = useState(null);
 
   useEffect(() => {
     setLoading(true);
-    
-    axios.get('https://localhost:7110/companies').then(res => {
-      setDataSoruce(res.data.$values);
+    axios.get("https://localhost:7110/companies").then((res) => {
+      setDataSource(res.data.$values);
       setLoading(false);
-    });   
+    });
   }, []);
 
-  //Modal Logic
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dlgModalInfo, setDlgModalInfo] = useState({
-    modalTitle: "",
-    companyId: 0,
-    isShow: false,
-  });
-  
-     function showModal(newModalTitle, id){
-    setDlgModalInfo({
-      modalTitle: newModalTitle,
-      id,
-      isShow: true,
-      
-    })
-  };
-  function handleOk(){
-    setDlgModalInfo({
-      ...dlgModalInfo,
-      isShow: false
-    })
-  };
-  function handleCancel(){
-    setDlgModalInfo({
-      ...dlgModalInfo,
-      isShow: false
-    })
-  };
-
   return (
-    <div className='Companies-Read-Container'>
-      <Card>
-        <Table 
+    <BootstrapViewGrid>
+      <div className="card">
+        <div className="card-header">Companies</div>
+        <BootstrapTable
           columns={[
+            { title: "ID", dataIndex: "id" },
+            { title: "Name", dataIndex: "name" },
+            { title: "Description", dataIndex: "description" },
+            { title: "Members", dataIndex: "members" },
             {
-              title: "id",
-              dataIndex: "id"
-            },
-            {
-              title: "name",
-              dataIndex: "name",
-            },
-            {
-              title: "description",
-              dataIndex: "description",
-            },
-            {
-              title: "members",
-              dataIndex: "members",
-            },
-            {
-              // key: "action",
-              render: (_, record) => {
-
-                return (
-                <Space size="middle">                      
-                  <Link onClick={() =>showModal("Edit", record.id )}>Edit</Link>  
-                  <Link onClick={() =>showModal("Delete", record.id)}>Delete</Link> 
-                </Space>
-              )},
+              title: "Actions",
+              key: "actions",
+              render: (_, company) => (
+                <div className="d-flex gap-3">
+                  <button className="btn btn-link p-0" onClick={() => setAction({ name: "Edit", id: company.id })}>Edit</button>
+                  <button className="btn btn-link text-danger p-0" onClick={() => setAction({ name: "Delete", id: company.id })}>Delete</button>
+                </div>
+              ),
             },
           ]}
           loading={loading}
           dataSource={dataSource}
-          pagination={true}
-        ></Table>
-      </Card>
-
-      <Modal title={dlgModalInfo.modalTitle} open={dlgModalInfo.isShow} onOk={handleOk} onCancel={handleCancel}>
-
-        {dlgModalInfo.modalTitle == "Edit" ? <CompaniesUpdate id={dlgModalInfo.id}/>                                                       
-                                                      :       
-                                             <CompaniesDelete id={dlgModalInfo.id}/>}
-      </Modal>
-
-    </div>
-
-   
-  )
+        />
+      </div>
+      {action && (
+        <BootstrapModal title={`${action.name} Company`} onClose={() => setAction(null)}>
+          <p className="mb-0">Company {action.id} {action.name.toLowerCase()} is not available yet.</p>
+        </BootstrapModal>
+      )}
+    </BootstrapViewGrid>
+  );
 }
 
-export default CompaniesRead
+export default CompaniesRead;

@@ -1,20 +1,9 @@
-import { Card, Statistic, Table } from "antd";
-import { Typography } from "antd";
-import React, { useEffect } from "react";
-import {
-  DatabaseOutlined,
-  UserOutlined,
-  UsergroupDeleteOutlined,
-  ProjectOutlined,
-  TabletOutlined,
-} from "@ant-design/icons";
-import { Space } from "antd";
-import { useState } from "react";
-import { GetAllTickets, GetDashboardNumbers} from "../../API";
+import React, { useEffect, useState } from "react";
+import { GetAllTickets } from "../../API";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import axios from 'axios'
-import data from '../../ChartExample.json'
+import axios from 'axios';
+import BootstrapTable from "../../Views/BootstrapTable";
 
 function Dashboard() { 
   const [entityNumbers, setEntityNumbers] = useState({
@@ -70,123 +59,75 @@ function Dashboard() {
 
 
   return (
-    <Space style={{ display: 'flex', alignItems: 'start', justifyContent: 'center', backgroundColor: 'white' }} size={60} direction="vertical">
-      <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: "20px"}} direction="horizontal">
-        <DashboardCard id="testing"
-          bgColor={"#01D2FE"}
-          icon={
-            <TabletOutlined
-              style={{ color: "black"}}
-            />
-          }
-          title={"Tickets"}
-          value={entityNumbers.tickets}
-        ></DashboardCard>
-        <DashboardCard 
-          bgColor={"#fba80f"}
-          icon={
-            <ProjectOutlined
-              style={{ color: "black" }}
-            />
-          }
-          title={"Projects"}
-          value={entityNumbers.projects}
-        ></DashboardCard>
-        <DashboardCard 
-          bgColor={"#d81414"}
-          icon={
-            <UsergroupDeleteOutlined
-              style={{ color: "black"}}
-            />
-          }
-          title={"Companies"}
-          value={entityNumbers.companies}
-        ></DashboardCard>
-        <DashboardCard 
-          bgColor={"#40ba40"}
-          icon={
-            <UserOutlined
-              style={{ color: "black" }}
-            />
-          }
-          title={"Users"}
-          value={entityNumbers.users}
-        ></DashboardCard>
-      </Space>
-      <Space>
+    <main className="container-fluid bg-white py-3">
+      <div className="row g-3 mb-4">
+        <div className="col-12 col-sm-6 col-xl-3">
+          <DashboardCard bgColor="#01D2FE" icon="T" title="Tickets" value={entityNumbers.tickets} />
+        </div>
+        <div className="col-12 col-sm-6 col-xl-3">
+          <DashboardCard bgColor="#fba80f" icon="P" title="Projects" value={entityNumbers.projects} />
+        </div>
+        <div className="col-12 col-sm-6 col-xl-3">
+          <DashboardCard bgColor="#d81414" icon="C" title="Companies" value={entityNumbers.companies} />
+        </div>
+        <div className="col-12 col-sm-6 col-xl-3">
+          <DashboardCard bgColor="#40ba40" icon="U" title="Users" value={entityNumbers.users} />
+        </div>
+      </div>
 
-        {/* overall tickets chart */}
-        <Chart 
-          firstRecord={entityNumbers.tickets}   firstTitle={"Tickets"} 
-          secondRecord={entityNumbers.projects} secondTitle={"Projects"}
-          thirdRecord={entityNumbers.companies} thirdTitle={"Companies"}
-          fourthRecord={entityNumbers.users}    fourthTitle={"Users"}
-          fifthRecord={null}                         fifthTitle={null}
+      <div className="row g-3 mb-4">
+        <div className="col-12 col-md-6 col-xxl-3">
+          <Chart title="Overall" records={[
+            [entityNumbers.tickets, "Tickets"],
+            [entityNumbers.projects, "Projects"],
+            [entityNumbers.companies, "Companies"],
+            [entityNumbers.users, "Users"],
+          ]} />
+        </div>
+        <div className="col-12 col-md-6 col-xxl-3">
+          <Chart title="Ticket Status" records={[
+            [entityNumbers.newStatus, "New"],
+            [entityNumbers.developmentStatus, "Development"],
+            [entityNumbers.testingStatus, "Testing"],
+            [entityNumbers.resolvedStatus, "Resolved"],
+          ]} />
+        </div>
+        <div className="col-12 col-md-6 col-xxl-3">
+          <Chart title="Ticket Priority" records={[
+            [entityNumbers.mediumPriority, "Medium"],
+            [entityNumbers.highPriority, "High"],
+            [entityNumbers.urgentPriority, "Urgent"],
+            [entityNumbers.lowPriority, "Low"],
+          ]} />
+        </div>
+        <div className="col-12 col-md-6 col-xxl-3">
+          <Chart title="Ticket Type" records={[
+            [entityNumbers.defectType, "Defect"],
+            [entityNumbers.newDevType, "New Development"],
+            [entityNumbers.workTaskType, "Work Task"],
+            [entityNumbers.enhancementType, "Enhancement"],
+            [entityNumbers.changeRequestType, "Change Request"],
+          ]} />
+        </div>
+      </div>
 
-        />
-
-        {/* Ticket Status chart */}
-        <Chart 
-          firstRecord={entityNumbers.newStatus} firstTitle={"New Status"}         
-          secondRecord={entityNumbers.developmentStatus} secondTitle={"Development Status"}
-          thirdRecord={entityNumbers.testingStatus} thirdTitle={"Testing Status"}
-          fourthRecord={entityNumbers.resolvedStatus} fourthTitle={"Resolved Status"}
-          fifthRecord={null}                         fifthTitle={null}
-        />
-
-        {/* Ticket Priority chart */}
-        <Chart 
-          firstRecord={entityNumbers.mediumPriority} firstTitle={"Medium Priority"}         
-          secondRecord={entityNumbers.highPriority}  secondTitle={"High Priority"}
-          thirdRecord={entityNumbers.urgentPriority} thirdTitle={"Urgent Priority"}
-          fourthRecord={entityNumbers.lowPriority}   fourthTitle={"Low Priority"}
-          fifthRecord={null}                         fifthTitle={null}
-        />
-
-        {/* Ticket Type chart */}
-        
-        <Chart 
-            firstRecord={entityNumbers.defectType}        firstTitle={"Defect Type"}         
-            secondRecord={entityNumbers.newDevType}       secondTitle={"New Development Type"}
-            thirdRecord={entityNumbers.workTaskType}      thirdTitle={"Work Task Type"}
-            fourthRecord={entityNumbers.enhancementType}  fourthTitle={"Enhancement Type"}
-            fifthRecord={entityNumbers.changeRequestType} fifthTitle={"Change Request Type"}
-            options={{
-              responsive: true,
-              maintainAspectRatio: true,
-            }}
-          />
-      </Space>
-
-      <Space>
-        <RecentTickets />
-      </Space>
-    </Space>
+      <div className="row">
+        <div className="col-12">
+          <RecentTickets />
+        </div>
+      </div>
+    </main>
   );
 }
 
-function Chart({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthRecord,
-                 firstTitle, secondTitle, thirdTitle, fourthTitle, fifthTitle }){
-
+function Chart({ title, records }) {
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const data = {
-    labels: [
-        firstTitle,
-        secondTitle,
-        thirdTitle,
-        fourthTitle,
-        fifthTitle !== null ? fifthTitle : null 
-    ],
+    labels: records.map(([, label]) => label),
     datasets: [
         {
-            data: [
-              firstRecord,    
-              secondRecord,       
-              thirdRecord,       
-              fourthRecord,
-              fifthRecord !== null ? fifthRecord : null 
-            ],
+            data: records.map(([value]) => value),
             backgroundColor: [
                 "blue",
                 "yellow",
@@ -206,58 +147,62 @@ function Chart({ firstRecord, secondRecord, thirdRecord, fourthRecord, fifthReco
 }
 
 
-  return(
-    <>
-      <Card bodyStyle={{border : "1px solid black", width: 500, height: 350}}> <Pie width={474} height={260} data={data} /> </Card>
-    </>
-  )
+  return (
+    <section className="card h-100">
+      <h2 className="card-header fs-6">{title}</h2>
+      <div className="card-body" style={{ height: 320 }}>
+        <Pie data={data} options={{ responsive: true, maintainAspectRatio: false }} />
+      </div>
+    </section>
+  );
 }
 
 function RecentTickets() {
-  const [dataSource, setDataSoruce] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     GetAllTickets().then((res) => {
-      setDataSoruce(res.$values.splice(0,4));
+      setDataSource(res.$values.slice(0, 4));
       setLoading(false);
     });
   }, []);
 
   return (
-    <>
-      <Table
+    <section className="card">
+      <h2 className="card-header fs-6">Recent Tickets</h2>
+      <BootstrapTable
         columns={[
-          {
-            title: "id",
-            dataIndex: "id",
-          },
-          {
-            title: "title",
-            dataIndex: "title",
-          },
-          {
-            title: "description",
-            dataIndex: "description",
-          },
+          { title: "ID", dataIndex: "id" },
+          { title: "Title", dataIndex: "title" },
+          { title: "Description", dataIndex: "description" },
         ]}
         loading={loading}
         dataSource={dataSource}
-        pagination={false}
-      ></Table>
-    </>
+        pageSize={4}
+      />
+    </section>
   );
 }
 
 function DashboardCard({ bgColor, icon, value, title }) {
   return (
-    <Card className="Dashboard-Card" bodyStyle={{ backgroundColor: bgColor }}>
-      <Space direction="horizontal">
-        {icon}
-        <Statistic title={title} value={value} />
-      </Space>
-    </Card>
+    <section
+      className="card h-100 border-0 shadow-sm"
+      style={{ backgroundColor: bgColor }}
+    >
+      <div className="card-body d-flex align-items-center gap-3">
+        <span className="rounded-circle bg-white bg-opacity-50 d-inline-flex align-items-center justify-content-center fw-bold"
+          style={{ width: 44, height: 44 }} aria-hidden="true">
+          {icon}
+        </span>
+        <div>
+          <h2 className="fs-6 mb-1">{title}</h2>
+          <p className="fs-3 mb-0">{value}</p>
+        </div>
+      </div>
+    </section>
   );
 }
 

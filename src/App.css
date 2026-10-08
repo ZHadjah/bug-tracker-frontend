@@ -1,7 +1,6 @@
 body {
   display: block !important;
   width: 100%;
-  overflow: hidden !important;
 }
 .App{
   display: flex;
@@ -32,7 +31,7 @@ body {
 
 .SideMenu{
   width: 200px;
-  height: 100%; 
+  height: 100%;
 }
 
 .PageContent{
@@ -44,26 +43,6 @@ body {
   flex: 1;
   justify-content: flex-start;
   align-items: flex-start;
+  background-color: white;
   /* height: calc(100% - 52px); */
-}
-
-.Dashboard-Card{
-  margin-right: 30px;
-  width: 175px;
-}
-
-.Tickets-Create-Container{
-  padding: 23px 0px 0px 120px;
-}
-
-.Tickets-Read-Card{
-  margin: 23px 23px;
-}
-
-.Companies-Read-Container{
-  margin: 23px 23px;
-}
-
-.Projects-Create-Container{
-  margin: 23px 23px;
 }

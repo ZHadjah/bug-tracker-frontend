@@ -1,28 +1,8 @@
-import { Button, Form, Input, InputNumber, Card, Upload, Select, Space } from "antd";
-import React, { useState, useEffect } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../../API";
-import store from "../../redux/store";
+import BootstrapViewGrid from "../BootstrapViewGrid";
 import { getToken } from "../../utils/appUtils";
-
-const { Option } = Select;
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-/* eslint-disable no-template-curly-in-string */
-const validateMessages = {
-  required: "${label} is required!",
-  types: {
-    email: "${label} is not a valid email!",
-    number: "${label} is not a valid number!",
-  },
-  number: {
-    range: "${label} must be between ${min} and ${max}",
-  },
-};
 
 function TicketsCreate() {
   const [ticketTypes, setTicketTypes] = useState([]);
@@ -30,6 +10,8 @@ function TicketsCreate() {
   const [ticketStatus, setTicketStatus] = useState([]);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [data, setData] = useState({
     title: "",
     description: "",
@@ -42,246 +24,124 @@ function TicketsCreate() {
     comments: "",
   });
 
-
   useEffect(() => {
-    axios.get(`${baseUrl}/TicketTypes/Options`).then((res) => {
-      setTicketTypes(res.data);
-    });
-
-    axios.get(`${baseUrl}/TicketPriorities/Options`).then((res) => {
-      setTicketPriorities(res.data);
-    });
-
-    axios.get(`${baseUrl}/TicketStatus/Options`).then((res) => {
-      setTicketStatus(res.data);
-    });
-
-    axios.get(`${baseUrl}/Projects`).then((res) => {
-      setProjects(res.data["$values"]);
-    });
-
+    axios.get(`${baseUrl}/TicketTypes/Options`).then((res) => setTicketTypes(res.data));
+    axios.get(`${baseUrl}/TicketPriorities/Options`).then((res) => setTicketPriorities(res.data));
+    axios.get(`${baseUrl}/TicketStatus/Options`).then((res) => setTicketStatus(res.data));
+    axios.get(`${baseUrl}/Projects`).then((res) => setProjects(res.data.$values));
     axios
       .get(`${baseUrl}/UserRoles/GetAllUsersInCompany`, {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
+        headers: { Authorization: `Bearer ${getToken()}` },
       })
-      .then((res) => {
-        setUsers(res.data);
-        debugger
-      });
+      .then((res) => setUsers(res.data));
   }, []);
 
-
-  function handleChange(e) {
-    const value = e.target.value;
-    setData({
-      ...data,
-      [e.target.name]: value
-    });
-  };
-
-  function handleProjectChange(value) {
-    setData({
-      ...data,
-      project: value
-    });
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setData((current) => ({ ...current, [name]: value }));
   }
 
-  function onSubmit(values)  { 
-    axios
-      .post(`${baseUrl}/Tickets/Create`, values).then((response) => {
-        console.log(response);
-        }).catch((error) => {
-        console.log(error);
-        })
-   };
+  async function onSubmit(event) {
+    event.preventDefault();
+    setSubmitError("");
+    setSubmitSuccess(false);
+
+    const payload = {
+      title: data.title,
+      Description: data.description,
+      Project: data.project,
+      ticketType: data.type,
+      ticketPriority: data.priority,
+      ticketStatus: data.status,
+      Owner: data.owner,
+      Developer: data.developer,
+      Comments: data.comments,
+    };
+
+    try {
+      await axios.post(`${baseUrl}/Tickets/Create`, payload);
+      setSubmitSuccess(true);
+    } catch (error) {
+      setSubmitError(error.response?.data?.message || error.message || "Could not create ticket.");
+    }
+  }
 
   return (
-    <div className="Tickets-Create-Container">
-      <Card>
-      <Form
-          {...layout}
-          name="nest-messages"
-          style={{
-            maxWidth: 600,
-          }}
-          validateMessages={validateMessages}
-          onSubmitCapture={(values) => onSubmit(values)}
-        >
-
-        <Space direction="vertical">
-        
-          <Form.Item
-            name="title"
-            label="Title"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input name="title" value={data.title} onChange={handleChange}/>
-          </Form.Item>
-          <Form.Item
-            name="Description"
-            label="Description"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input name="description" value={data.description} onChange={handleChange} />
-          </Form.Item>
-
-          <Form.Item
-            name="Project"
-            label="Project"
-            hasFeedback
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Select a project" name="project" value={data.project} onChange={handleProjectChange}>
-              {projects.map((project) => (
-                <Option  value={project.id} key={project.id}>
-                  {project.name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="ticketType"
-            label="Ticket Type"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Select a type">
-              {ticketTypes.map((type, index) => (
-                <Option key={index}>{type.Value}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </Space>
-
-        <Space direction="vertical">
-          
-        </Space>
-
-
-          <Form.Item
-            name="ticketPriority"
-            label="Ticket Priority"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Select a Priority">
-              {ticketPriorities.map((priority, index) => (
-                <Option key={index} name="priority" value={data.priority} onChange={handleChange}>{priority.Value}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="ticketStatus"
-            label="Ticket Status"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Please select a project">
-              {ticketStatus.map((status, index) => (
-                <Option key={index} onChange={handleChange}>{status.Value}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="Owner"
-            label="Owner"
-            hasFeedback
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Select who owns this ticket">
-              {users.map((user, index) => (
-                <Option key={index} name="owner" value={data.owner} onChange={handleChange}>{user.FullName}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="Developer"
-            label="Developer"
-            hasFeedback
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Select a Developer">
-              {users.map((user, index) => (
-                <Option key={index}>{user.FullName}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="Comments"
-            label="Comments"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input.TextArea name="comments" value={data.comments} onChange={handleChange}/>
-          </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              ...layout.wrapperCol,
-              offset: 8,
-            }}
-          >
-            <Form.Item label="Upload" valuePropName="fileList">
-              <Upload action="/upload.do" listType="picture-card">
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              </Upload>
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form.Item>
-        </Form>
-      </Card>
-    </div>
-  )
+    <BootstrapViewGrid contentClassName="col-12 col-xl-10">
+      <div className="card">
+        <div className="card-header">Create Ticket</div>
+        <div className="card-body">
+          <form onSubmit={onSubmit}>
+            {submitError && <div className="alert alert-danger" role="alert">{submitError}</div>}
+            {submitSuccess && <div className="alert alert-success" role="status">Ticket created.</div>}
+            <div className="row g-3">
+              <div className="col-12 col-md-6">
+                <label className="form-label" htmlFor="ticket-title">Title</label>
+                <input id="ticket-title" className="form-control" name="title" value={data.title} onChange={handleChange} required />
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="form-label" htmlFor="ticket-project">Project</label>
+                <select id="ticket-project" className="form-select" name="project" value={data.project} onChange={handleChange} required>
+                  <option value="">Select a project</option>
+                  {projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
+                </select>
+              </div>
+              <div className="col-12">
+                <label className="form-label" htmlFor="ticket-description">Description</label>
+                <textarea id="ticket-description" className="form-control" name="description" rows="3" value={data.description} onChange={handleChange} required />
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="form-label" htmlFor="ticket-type">Ticket Type</label>
+                <select id="ticket-type" className="form-select" name="type" value={data.type} onChange={handleChange} required>
+                  <option value="">Select a type</option>
+                  {ticketTypes.map((type, index) => <option key={type.id ?? index} value={type.Value}>{type.Value}</option>)}
+                </select>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="form-label" htmlFor="ticket-priority">Ticket Priority</label>
+                <select id="ticket-priority" className="form-select" name="priority" value={data.priority} onChange={handleChange} required>
+                  <option value="">Select a priority</option>
+                  {ticketPriorities.map((priority, index) => <option key={priority.id ?? index} value={priority.Value}>{priority.Value}</option>)}
+                </select>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="form-label" htmlFor="ticket-status">Ticket Status</label>
+                <select id="ticket-status" className="form-select" name="status" value={data.status} onChange={handleChange} required>
+                  <option value="">Select a status</option>
+                  {ticketStatus.map((status, index) => <option key={status.id ?? index} value={status.Value}>{status.Value}</option>)}
+                </select>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="form-label" htmlFor="ticket-owner">Owner</label>
+                <select id="ticket-owner" className="form-select" name="owner" value={data.owner} onChange={handleChange} required>
+                  <option value="">Select an owner</option>
+                  {users.map((user, index) => <option key={user.id ?? index} value={user.FullName}>{user.FullName}</option>)}
+                </select>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="form-label" htmlFor="ticket-developer">Developer</label>
+                <select id="ticket-developer" className="form-select" name="developer" value={data.developer} onChange={handleChange} required>
+                  <option value="">Select a developer</option>
+                  {users.map((user, index) => <option key={user.id ?? index} value={user.FullName}>{user.FullName}</option>)}
+                </select>
+              </div>
+              <div className="col-12">
+                <label className="form-label" htmlFor="ticket-comments">Comments</label>
+                <textarea id="ticket-comments" className="form-control" name="comments" rows="3" value={data.comments} onChange={handleChange} />
+              </div>
+              <div className="col-12">
+                <label className="form-label" htmlFor="ticket-upload">Attachments</label>
+                <input id="ticket-upload" className="form-control" type="file" multiple />
+              </div>
+              <div className="col-12">
+                <button className="btn btn-primary" type="submit">Create Ticket</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </BootstrapViewGrid>
+  );
 }
+
 export default TicketsCreate;

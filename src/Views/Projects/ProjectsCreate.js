@@ -1,104 +1,48 @@
-import React, { useState, useEffect }  from 'react'
-import { Button, Form, Input, InputNumber, Card, Upload, Select } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../../API";
-import { getToken } from "../../utils/appUtils";
-
-const { Option } = Select;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const validateMessages = {
-  required: "${label} is required!",
-  types: {
-    email: "${label} is not a valid email!",
-    number: "${label} is not a valid number!",
-  },
-  number: {
-    range: "${label} must be between ${min} and ${max}",
-  },
-};
+import BootstrapViewGrid from "../BootstrapViewGrid";
 
 function ProjectsCreate() {
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
-    axios.get(`${baseUrl}/Companies`).then((res) => {
-            setCompanies(res.data.$values);
-    });
+    axios.get(`${baseUrl}/Companies`).then((res) => setCompanies(res.data.$values));
   }, []);
 
+  function onSubmit(event) {
+    event.preventDefault();
+  }
+
   return (
-    <div className="Projects-Create-Container" >
-      <Card>
-        <Form
-          {...layout}
-          name="nest-messages"
-          style={{
-            maxWidth: 600,
-          }}
-          validateMessages={validateMessages}
-        >
-          <Form.Item
-            name="project"
-            label="Project Name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="Description"
-            label="Description"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>      
-
-          <Form.Item
-            name="company"
-            label="Company"
-            hasFeedback
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select placeholder="Select a Company">
-            {companies.map((company, index) => (
-                    <Option value={company.id} key={company.id}>
-                      {company.name}
-                    </Option>
-            ))}   
-            </Select>
-          </Form.Item> 
-
-          <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-        </Form>
-      </Card>
-    </div>
-    
-  )
+    <BootstrapViewGrid contentClassName="col-12 col-lg-10 col-xl-8">
+      <div className="card">
+        <div className="card-header">Create Project</div>
+        <div className="card-body">
+          <form onSubmit={onSubmit}>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="project-name">Project Name</label>
+              <input id="project-name" className="form-control" name="project" required />
+            </div>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="project-description">Description</label>
+              <textarea id="project-description" className="form-control" name="Description" rows="3" required />
+            </div>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="project-company">Company</label>
+              <select id="project-company" className="form-select" name="company" required defaultValue="">
+                <option value="" disabled>Select a company</option>
+                {companies.map((company) => (
+                  <option value={company.id} key={company.id}>{company.name}</option>
+                ))}
+              </select>
+            </div>
+            <button className="btn btn-primary" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </BootstrapViewGrid>
+  );
 }
-export default ProjectsCreate
+
+export default ProjectsCreate;

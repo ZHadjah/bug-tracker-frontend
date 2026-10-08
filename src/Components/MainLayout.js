@@ -25,15 +25,15 @@ const MainLayout = (props) => {
 
   return (
     <div className="">
-        <div style={{ height: "calc(100vh - 50px)" }}>
-          <AppHeader />
-          <Space className="SideMenuAndPageContent">
-            <SideMenu></SideMenu>
-            <Outlet />
-          </Space>
-        </div>
-        <AppFooter />
+      <div style={{ height: "calc(100vh - 50px)" }}>
+        <AppHeader />
+        <Space className="SideMenuAndPageContent">
+          <SideMenu />
+          <Outlet />
+        </Space>
       </div>
+      <AppFooter />
+    </div>
   );
 };
 
