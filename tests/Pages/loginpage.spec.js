@@ -26,12 +26,26 @@ test.describe("Login Page", () => {
         const logo = page.locator('img[alt="Internal Issues Ticket"]');
         await expect(logo).toHaveClass(/mx-auto/);
 
-        const logoPosition = await logo.evaluate((el) => {
-            const rect = el.getBoundingClientRect();
-            return { top: rect.top, left: rect.left };
-        });
+        const loginSection = page.locator("#loginSection");
+        await expect(loginSection).toBeVisible();
+        await expect(logo).toBeVisible();
 
-        const emailInput = page.locator('input[name="email"]'); 
+        const logoBox = await logo.boundingBox();
+        expect(logoBox).not.toBeNull();
+
+        const elementsBelowLogo = [
+            page.getByRole("heading", { name: "Sign in" }),
+            page.getByLabel("Email"),
+            page.getByLabel("Password"),
+            page.getByRole("button", { name: "Submit", exact: true }),
+        ];
+
+        for (const element of elementsBelowLogo) {
+            await expect(element).toBeVisible();
+            const elementBox = await element.boundingBox();
+            expect(elementBox).not.toBeNull();
+            expect(elementBox.y).toBeGreaterThanOrEqual(logoBox.y + logoBox.height);
+        }
     });
 
     test('should display email and password input labels and fields', async ({ page }) => {
