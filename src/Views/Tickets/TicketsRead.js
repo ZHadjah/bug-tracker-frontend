@@ -46,10 +46,18 @@ function TicketsRead() {
                 key: "actions",
                 render: (_, record) => (
                   <div className="d-flex gap-3">
-                    <button className="btn btn-link p-0" onClick={() => showModal("Edit", record.id)}>
+                    <button
+                      className="btn btn-link p-0"
+                      aria-label={`Edit ticket ${record.id}, ${record.title || "untitled"}, description: ${record.description || "no description"}`}
+                      onClick={() => showModal("Edit", record.id)}
+                    >
                       Edit
                     </button>
-                    <button className="btn btn-link text-danger p-0" onClick={() => showModal("Delete", record.id)}>
+                    <button
+                      className="btn btn-link text-danger p-0"
+                      aria-label={`Delete ticket ${record.id}, ${record.title || "untitled"}, description: ${record.description || "no description"}`}
+                      onClick={() => showModal("Delete", record.id)}
+                    >
                       Delete
                     </button>
                   </div>
@@ -58,6 +66,8 @@ function TicketsRead() {
             ]}
             loading={loading}
             dataSource={dataSource}
+            caption="Tickets with their IDs, titles, descriptions, and available actions."
+            tableLabel="Tickets"
           />
         </div>
       </BootstrapViewGrid>

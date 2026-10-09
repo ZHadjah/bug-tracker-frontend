@@ -37,10 +37,18 @@ function ManageUserRoles() {
                 key: "actions",
                 render: (_, record) => (
                   <div className="d-flex gap-3">
-                    <button className="btn btn-link p-0" onClick={() => setDialog({ title: "Edit", id: record.id, isOpen: true })}>
+                    <button
+                      className="btn btn-link p-0"
+                      aria-label={`Edit role for ${record.btUser?.fullName || "unnamed user"}, current role: ${record.usersRole || "no role"}`}
+                      onClick={() => setDialog({ title: "Edit", id: record.id, isOpen: true })}
+                    >
                       Edit
                     </button>
-                    <button className="btn btn-link text-danger p-0" onClick={() => setDialog({ title: "Delete", id: record.id, isOpen: true })}>
+                    <button
+                      className="btn btn-link text-danger p-0"
+                      aria-label={`Delete role for ${record.btUser?.fullName || "unnamed user"}, current role: ${record.usersRole || "no role"}`}
+                      onClick={() => setDialog({ title: "Delete", id: record.id, isOpen: true })}
+                    >
                       Delete
                     </button>
                   </div>
@@ -49,6 +57,8 @@ function ManageUserRoles() {
             ]}
             loading={loading}
             dataSource={dataSource}
+            caption="User roles with each user's name, assigned role, and available actions."
+            tableLabel="User roles"
           />
         </div>
       </BootstrapViewGrid>

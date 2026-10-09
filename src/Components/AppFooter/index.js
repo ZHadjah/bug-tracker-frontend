@@ -1,15 +1,13 @@
-import { Typography } from "antd";
-
 function AppFooter() {
   return (
-    <div className="AppFooter" style={{ color: "white", backgroundColor: "#03C9F9", borderTop:"none" }} >
-      <Typography.Link href="https://github.com/ZHadjah" target="_blank" style={{ color: "white",  textDecoration: 'underline' }} >
+    <footer className="AppFooter bg-info" aria-label="Footer">
+      <a className="link-light" href="https://github.com/ZHadjah" target="_blank" rel="noreferrer">
         Github
-      </Typography.Link>
-      <Typography.Link href="https://zachhadjah.netlify.app" target="_blank" style={{ color: "white", textDecoration: 'underline' }} >
+      </a>
+      <a className="link-light" href="https://zachhadjah.netlify.app" target="_blank" rel="noreferrer">
         Portfolio Page
-      </Typography.Link>      
-    </div>
-  )
+      </a>
+    </footer>
+  );
 }
-export default AppFooter
+export default AppFooter;

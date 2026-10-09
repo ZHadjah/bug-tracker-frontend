@@ -32,14 +32,28 @@ function CompaniesRead() {
               key: "actions",
               render: (_, company) => (
                 <div className="d-flex gap-3">
-                  <button className="btn btn-link p-0" onClick={() => setAction({ name: "Edit", id: company.id })}>Edit</button>
-                  <button className="btn btn-link text-danger p-0" onClick={() => setAction({ name: "Delete", id: company.id })}>Delete</button>
+                  <button
+                    className="btn btn-link p-0"
+                    aria-label={`Edit ${company.name}, description: ${company.description || "no description"}`}
+                    onClick={() => setAction({ name: "Edit", id: company.id })}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-link text-danger p-0"
+                    aria-label={`Delete ${company.name}, description: ${company.description || "no description"}`}
+                    onClick={() => setAction({ name: "Delete", id: company.id })}
+                  >
+                    Delete
+                  </button>
                 </div>
               ),
             },
           ]}
           loading={loading}
           dataSource={dataSource}
+          caption="Companies with their IDs, names, descriptions, member counts, and available actions."
+          tableLabel="Companies"
         />
       </div>
       {action && (

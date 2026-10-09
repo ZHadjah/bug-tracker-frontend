@@ -29,7 +29,9 @@ const MainLayout = (props) => {
         <AppHeader />
         <Space className="SideMenuAndPageContent">
           <SideMenu />
-          <Outlet />
+          <main id="main-content">
+            <Outlet />
+          </main>
         </Space>
       </div>
       <AppFooter />

@@ -59,7 +59,8 @@ function Dashboard() {
 
 
   return (
-    <main className="container-fluid bg-white py-3">
+    <div className="container-fluid bg-white py-3">
+      <h1 className="visually-hidden">Dashboard</h1>
       <div className="row g-3 mb-4">
         <div className="col-12 col-sm-6 col-xl-3">
           <DashboardCard bgColor="#01D2FE" icon="T" title="Tickets" value={entityNumbers.tickets} />
@@ -77,7 +78,7 @@ function Dashboard() {
 
       <div className="row g-3 mb-4">
         <div className="col-12 col-md-6 col-xxl-3">
-          <Chart title="Overall" records={[
+          <Chart title="All Entities" records={[
             [entityNumbers.tickets, "Tickets"],
             [entityNumbers.projects, "Projects"],
             [entityNumbers.companies, "Companies"],
@@ -116,7 +117,7 @@ function Dashboard() {
           <RecentTickets />
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -148,11 +149,30 @@ function Chart({ title, records }) {
 
 
   return (
-    <section className="card h-100">
-      <h2 className="card-header fs-6">{title}</h2>
+    <section className="card h-100" aria-labelledby={`chart-title-${title.replace(/\s+/g, "-").toLowerCase()}`}>
+      <h2 id={`chart-title-${title.replace(/\s+/g, "-").toLowerCase()}`} className="card-header fs-6">{title}</h2>
       <div className="card-body" style={{ height: 320 }}>
-        <Pie data={data} options={{ responsive: true, maintainAspectRatio: false }} />
+        <Pie
+          data={data}
+          role="img"
+          tabIndex={0}
+          aria-label={`${title} chart: ${records.map(([value, label]) => `${label}, ${value}`).join("; ")}`}
+          options={{ responsive: true, maintainAspectRatio: false }}
+        />
       </div>
+      <ul className="list-group list-group-flush" aria-label={`${title} chart values`}>
+        {records.map(([value, label]) => (
+          <li
+            className="list-group-item d-flex justify-content-between"
+            key={label}
+            tabIndex={0}
+            aria-label={`${label}: ${value}`}
+          >
+            <span>{label}</span>
+            <span className="fw-semibold">{value}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -170,8 +190,8 @@ function RecentTickets() {
   }, []);
 
   return (
-    <section className="card">
-      <h2 className="card-header fs-6">Recent Tickets</h2>
+    <section className="card" aria-labelledby="recent-tickets-heading">
+      <h2 id="recent-tickets-heading" className="card-header fs-6">Recent Tickets</h2>
       <BootstrapTable
         columns={[
           { title: "ID", dataIndex: "id" },
@@ -181,6 +201,8 @@ function RecentTickets() {
         loading={loading}
         dataSource={dataSource}
         pageSize={4}
+        caption="Recent tickets: the four most recently returned tickets."
+        tableLabel="Recent tickets"
       />
     </section>
   );
@@ -188,11 +210,13 @@ function RecentTickets() {
 
 function DashboardCard({ bgColor, icon, value, title }) {
   return (
-    <section
+    <div
       className="card h-100 border-0 shadow-sm"
+      role="group"
+      tabIndex={0}
       style={{ backgroundColor: bgColor }}
     >
-      <div className="card-body d-flex align-items-center gap-3">
+      <div id={`dashboard${title}Card`} className="card-body d-flex align-items-center gap-3" aria-label={`${title}: ${value}`}>
         <span className="rounded-circle bg-white bg-opacity-50 d-inline-flex align-items-center justify-content-center fw-bold"
           style={{ width: 44, height: 44 }} aria-hidden="true">
           {icon}
@@ -202,7 +226,7 @@ function DashboardCard({ bgColor, icon, value, title }) {
           <p className="fs-3 mb-0">{value}</p>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

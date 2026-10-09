@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Card, Space, Col, Row } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionLoggedSuccess, actionSetToken, } from "../../redux/actions/authAction";
@@ -45,163 +44,114 @@ function Login(props) {
   };
 
   return (
-    <div>
-
-    <Row   style={{ justifyContent: 'center' }}>
-      <Col style={{  }}>
-      <Space className="login-card-container" direction="vertical">
-      <Card className="login-card">
-          <img
-            className="justify-content-center"
-            src={MainLogo}
-            alt="InternalIssuesTicket"
-          
-          />
-
-          <Form
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            style={{
-              maxWidth: 600,
-              justifyContent: "center",
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            autoComplete="off"
-            onSubmitCapture={(event) => onSubmitLogin(event)}
-          >
-            <Form.Item
-              label="Email"
-              name="Email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Email!",
-                },
-              ]}
-            >
-              <Input
-                type="email"
-                value={loginInfo.email}
-                onChange={(e) =>
-                  setLoginInfo({
-                    ...loginInfo,
-                    email: e.target.value,
-                  })
-                }
-                placeholder="Email..."
-                required
+    <main className="login-page container-fluid d-flex align-items-center justify-content-center py-4">
+      <div className="row justify-content-center w-100">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+          <section id="loginSection" className="card shadow">
+            <div className="card-body p-4 p-md-5">
+              <img
+                className="img-fluid d-block mx-auto mb-4 login-logo"
+                src={MainLogo}
+                alt="Internal Issues Ticket"
               />
-            </Form.Item>
+              <h1 className="h3 text-center mb-4">Sign in</h1>
 
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password
-                type="password"
-                value={loginInfo.password}
-                onChange={(e) =>
-                  setLoginInfo({
-                    ...loginInfo,
-                    password: e.target.value,
-                  })
-                }
-                placeholder="Password..."
-                required
-              />
-            </Form.Item>
+              <form name="login" autoComplete="on" onSubmit={(event) => onSubmitLogin(event)}>
+                <div className="mb-3">
+                  <label className="form-label" htmlFor="login-email">Email</label>
+                  <input
+                    id="login-email"
+                    className="form-control"
+                    type="email"
+                    name="email"
+                    autoComplete="username"
+                    value={loginInfo.email}
+                    onChange={(event) =>
+                      setLoginInfo({ ...loginInfo, email: event.target.value })
+                    }
+                    placeholder="Email..."
+                    required
+                  />
+                </div>
 
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
+                <div className="mb-4">
+                  <label className="form-label" htmlFor="login-password">Password</label>
+                  <input
+                    id="login-password"
+                    className="form-control"
+                    type="password"
+                    name="password"
+                    autoComplete="current-password"
+                    value={loginInfo.password}
+                    onChange={(event) =>
+                      setLoginInfo({ ...loginInfo, password: event.target.value })
+                    }
+                    placeholder="Password..."
+                    required
+                  />
+                </div>
 
-        <Card className="demo-card" style={{ marginTop: "10px" }}>
-          <Form onSubmitCapture={onSubmitLogin}>
-            <Space size="small">
-              <Button
-                type="primary"
-                onClick={event => {
-                  onSubmitLogin(event, {
+                <button className="btn btn-primary w-100" type="submit">
+                  Submit
+                </button>
+              </form>
+            </div>
+          </section>
+
+          <section className="card shadow-sm mt-3" aria-labelledby="demo-login-heading">
+            <div className="card-body">
+              <h2 id="demo-login-heading" className="h5 mb-3">Try a demo account</h2>
+              <div className="d-grid gap-2 d-sm-flex flex-wrap">
+                <button
+                  id="demoAdminButton"
+                  className="btn btn-primary flex-fill"
+                  type="button"
+                  onClick={(event) => onSubmitLogin(event, {
                     email: "demoadmin@bugtracker.com",
                     password: "Abc&123!",
-                  });
-                }}
-              >
-                Demo Admin
-              </Button>
-              <Button
-                type="primary"
-                onClick={event => {
-                  onSubmitLogin(event, {
+                  })}
+                >
+                  Demo Admin
+                </button>
+                <button
+                  id="demoPMButton"
+                  className="btn btn-primary flex-fill"
+                  type="button"
+                  onClick={(event) => onSubmitLogin(event, {
                     email: "demopm@bugtracker.com",
                     password: "Abc&123!",
-                  });
-                }}
-              >
-                Demo PM
-              </Button>
-
-              <Button
-                type="primary"
-                onClick={event => {
-                  onSubmitLogin(event, {
+                  })}
+                >
+                  Demo PM
+                </button>
+                <button
+                  id="demoDevButton"
+                  className="btn btn-primary flex-fill"
+                  type="button"
+                  onClick={(event) => onSubmitLogin(event, {
                     email: "demodev@bugtracker.com",
                     password: "Abc&123!",
-                  });
-                }}
-              >
-                Demo Dev
-              </Button>
-              <Button
-                type="primary"
-                onClick={event => {
-                  onSubmitLogin(event, {
+                  })}
+                >
+                  Demo Dev
+                </button>
+                <button
+                  id="demoSubButton"
+                  className="btn btn-primary flex-fill"
+                  type="button"
+                  onClick={(event) => onSubmitLogin(event, {
                     email: "demosub@bugtracker.com",
                     password: "Abc&123!",
-                  });
-                }}
-              >
-                Demo Sub
-              </Button>
-            </Space>
-          </Form>
-        </Card>
-    </Space>
-      </Col>
-    </Row>
-
-
-    
-
-
-      
-
-
-
-
-    </div>
+                  })}
+                >
+                  Demo Sub
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
   );
 }
 

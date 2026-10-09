@@ -33,14 +33,28 @@ function ProjectsRead() {
               key: "actions",
               render: (_, project) => (
                 <div className="d-flex gap-3">
-                  <button className="btn btn-link p-0" onClick={() => setAction({ name: "Edit", id: project.id })}>Edit</button>
-                  <button className="btn btn-link text-danger p-0" onClick={() => setAction({ name: "Delete", id: project.id })}>Delete</button>
+                  <button
+                    className="btn btn-link p-0"
+                    aria-label={`Edit project ${project.name || project.id}, company: ${project.company || "not specified"}`}
+                    onClick={() => setAction({ name: "Edit", id: project.id })}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-link text-danger p-0"
+                    aria-label={`Delete project ${project.name || project.id}, company: ${project.company || "not specified"}`}
+                    onClick={() => setAction({ name: "Delete", id: project.id })}
+                  >
+                    Delete
+                  </button>
                 </div>
               ),
             },
           ]}
           loading={loading}
           dataSource={dataSource}
+          caption="Projects with their IDs, names, ticket counts, members, companies, and available actions."
+          tableLabel="Projects"
         />
       </div>
       {action && (

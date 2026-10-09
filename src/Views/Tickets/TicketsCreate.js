@@ -69,10 +69,20 @@ function TicketsCreate() {
   return (
     <BootstrapViewGrid contentClassName="col-12 col-xl-10">
       <div className="card">
-        <div className="card-header">Create Ticket</div>
+        <div className="card-header">
+          <h1 id="create-ticket-heading" className="h4 mb-0">Create Ticket</h1>
+        </div>
         <div className="card-body">
-          <form onSubmit={onSubmit}>
-            {submitError && <div className="alert alert-danger" role="alert">{submitError}</div>}
+          <form
+            onSubmit={onSubmit}
+            aria-labelledby="create-ticket-heading"
+            aria-describedby={submitError ? "create-ticket-error" : undefined}
+          >
+            {submitError && (
+              <div id="create-ticket-error" className="alert alert-danger" role="alert">
+                {submitError}
+              </div>
+            )}
             {submitSuccess && <div className="alert alert-success" role="status">Ticket created.</div>}
             <div className="row g-3">
               <div className="col-12 col-md-6">

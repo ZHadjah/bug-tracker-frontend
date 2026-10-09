@@ -6,7 +6,14 @@ function getValue(record, dataIndex) {
     : record?.[dataIndex];
 }
 
-function BootstrapTable({ columns, dataSource = [], loading = false, pageSize = 10 }) {
+function BootstrapTable({
+  columns,
+  dataSource = [],
+  loading = false,
+  pageSize = 10,
+  caption,
+  tableLabel,
+}) {
   const [page, setPage] = useState(1);
   const pageCount = Math.max(1, Math.ceil(dataSource.length / pageSize));
   const visibleRows = dataSource.slice((page - 1) * pageSize, page * pageSize);
@@ -19,8 +26,20 @@ function BootstrapTable({ columns, dataSource = [], loading = false, pageSize = 
           Loading…
         </div>
       ) : (
-        <div className="table-responsive">
-          <table className="table table-striped table-hover align-middle mb-0">
+        <div
+          className="table-responsive"
+          tabIndex={0}
+          role="group"
+          aria-label={tableLabel ? `${tableLabel} table` : undefined}
+        >
+          <table
+            className="table table-striped table-hover align-middle mb-0"
+            tabIndex={0}
+            aria-label={tableLabel}
+          >
+            <caption className="visually-hidden">
+              {caption || (tableLabel ? `${tableLabel} table.` : "Data table.")}
+            </caption>
             <thead className="table-light">
               <tr>
                 {columns.map((column, index) => (
@@ -38,8 +57,24 @@ function BootstrapTable({ columns, dataSource = [], loading = false, pageSize = 
                   </td>
                 </tr>
               ) : (
-                visibleRows.map((record, rowIndex) => (
-                  <tr key={record.id ?? record.$id ?? rowIndex}>
+                visibleRows.map((record, rowIndex) => {
+                  const rowDescription = columns
+                    .filter((column) => column.dataIndex)
+                    .map((column) => {
+                      const value = getValue(record, column.dataIndex);
+                      return value == null || value === ""
+                        ? null
+                        : `${column.title}: ${value}`;
+                    })
+                    .filter(Boolean)
+                    .join(", ");
+
+                  return (
+                  <tr
+                    key={record.id ?? record.$id ?? rowIndex}
+                    tabIndex={0}
+                    aria-label={`${tableLabel ? `${tableLabel}, ` : ""}row ${rowIndex + 1}${rowDescription ? `, ${rowDescription}` : ""}`}
+                  >
                     {columns.map((column, columnIndex) => (
                       <td key={column.key || column.title || columnIndex}>
                         {column.render
@@ -48,7 +83,8 @@ function BootstrapTable({ columns, dataSource = [], loading = false, pageSize = 
                       </td>
                     ))}
                   </tr>
-                ))
+                  );
+                })
               )}
             </tbody>
           </table>
