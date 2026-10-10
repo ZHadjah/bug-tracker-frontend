@@ -93,10 +93,9 @@ function SideMenu() {
               ],
             },
             {
-              label: "Users",
+              label: "Manage Users",
               icon: <UserOutlined aria-hidden="true" />,
-              key: "users",
-              children: [{ label: "Manage Users", key: "/Users" }],
+              key: "/Users",
             },
           ]}
         />

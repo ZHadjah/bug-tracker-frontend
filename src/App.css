@@ -30,9 +30,25 @@ body {
   bottom: 0;
 }
 
-.SideMenu{
+.SideMenu {
   width: 200px;
   height: 100%;
+
+  .ant-menu-submenu-selected > .ant-menu-submenu-title {
+      color: white;
+
+      .ant-menu-item-icon {
+        color: white;
+
+        &::hover, &::focus {
+          color: black;
+        }
+      }
+  }
+}
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-menu-light .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected) {
+  color: black;
 }
 
 .SideMenu .ant-menu-item:focus-visible,

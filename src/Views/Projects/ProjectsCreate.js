@@ -37,7 +37,7 @@ function ProjectsCreate() {
                 ))}
               </select>
             </div>
-            <button className="btn btn-primary" type="submit">Submit</button>
+            <button aria-label="Submit button" className="btn btn-primary" type="submit">Submit</button>
           </form>
         </div>
       </div>

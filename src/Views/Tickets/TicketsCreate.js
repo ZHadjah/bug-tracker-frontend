@@ -144,7 +144,7 @@ function TicketsCreate() {
                 <input id="ticket-upload" className="form-control" type="file" multiple />
               </div>
               <div className="col-12">
-                <button className="btn btn-primary" type="submit">Create Ticket</button>
+                <button aria-label="Submit" className="btn btn-primary" type="submit">Create Ticket</button>
               </div>
             </div>
           </form>
