@@ -24,6 +24,52 @@ test.describe("Header ", () => {
         
     });
 
+    test("should use a sticky Bootstrap navbar", async ({ page }) => {
+        const navbar = page.getByRole("banner");
+
+        await expect(navbar).toHaveClass(/navbar/);
+        await expect(navbar).toHaveClass(/sticky-top/);
+        await expect(navbar).toHaveCSS("position", "sticky");
+    });
+
+    test("should simplify the mobile navbar and align controls to the inline end", async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        const header = page.getByRole("banner");
+        const hamburger = page.getByRole("button", { name: "Open navigation menu" });
+        const branding = header.locator(".header-brand");
+        const actions = header.locator(".header-actions");
+        const logout = header.getByRole("button", { name: "Logout", exact: true });
+        const notifications = header.getByRole("button", { name: /Notifications/ });
+
+        await expect(hamburger).toBeVisible();
+        await expect(branding).toBeHidden();
+        await expect(logout).toBeVisible();
+        await expect(notifications).toBeVisible();
+
+        const alignment = await header.evaluate((element) => {
+            const headerBox = element.getBoundingClientRect();
+            const hamburgerBox = element.querySelector(".header-start").getBoundingClientRect();
+            const actionsBox = element.querySelector(".header-actions").getBoundingClientRect();
+            const isRtl = getComputedStyle(element).direction === "rtl";
+            return isRtl
+                ? hamburgerBox.right <= headerBox.right && actionsBox.left >= headerBox.left
+                : hamburgerBox.left >= headerBox.left && actionsBox.right <= headerBox.right;
+        });
+
+        expect(alignment).toBe(true);
+
+        await page.locator("html").evaluate((element) => {
+            element.setAttribute("dir", "rtl");
+        });
+
+        const rtlActionsAtInlineEnd = await actions.evaluate((element) => {
+            const headerBox = element.closest("header").getBoundingClientRect();
+            const actionsBox = element.getBoundingClientRect();
+            return actionsBox.left >= headerBox.left;
+        });
+        expect(rtlActionsAtInlineEnd).toBe(true);
+    });
+
     test('should have a properly functioning logout button', async ({ page }) => {
         const logoutButton = page.getByRole("button", { name: "Logout", exact: true });
 

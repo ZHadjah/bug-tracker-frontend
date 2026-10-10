@@ -1,28 +1,36 @@
 body {
   display: block !important;
   width: 100%;
+  overscroll-behavior-y: none;
 }
-.App{
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+
+html {
+  overscroll-behavior-y: none;
 }
 
 .AppHeader{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 20px 8px 12px;
+  padding: 0.5rem 0;
   border-bottom: 1px solid rgba(0,0,0,0.15);
+  z-index: 1030;
+}
+
+.notification-count-badge {
+  top: calc(0.25rem - 5px);
+  right: -8px;
+  transform: none;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding-bottom: 82px;
 }
 
 .AppFooter{
   color: white;
-  height: 50px;
+  min-height: 82px;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   border-top: 0;
   position: fixed;
   z-index: 16;
@@ -31,33 +39,52 @@ body {
 }
 
 .SideMenu {
-  width: 200px;
-  height: 100%;
-
-  .ant-menu-submenu-selected > .ant-menu-submenu-title {
-      color: white;
-
-      .ant-menu-item-icon {
-        color: white;
-
-        &::hover, &::focus {
-          color: black;
-        }
-      }
-  }
+  flex: 0 0 250px;
+  width: 250px;
+  min-height: 0;
+  color: #fff;
+  background: linear-gradient(170deg, #2A52BE, #01D2FE);
 }
 
-:where(.css-dev-only-do-not-override-1km3mtt).ant-menu-light .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected) {
-  color: black;
+.sidebar-nav {
+  padding: 1rem;
 }
 
-.SideMenu .ant-menu-item:focus-visible,
-.SideMenu .ant-menu-submenu-title:focus-visible{
-  outline: 3px solid #fff;
-  outline-offset: -3px;
-  position: relative;
-  z-index: 1;
-  z-index: 1;
+.SideMenu .nav-link {
+  color: #fff;
+}
+
+.SideMenu .nav-link:hover,
+.SideMenu .nav-link:focus-visible {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+.SideMenu .nav-link.active {
+  color: #173b83;
+  background-color: #fff;
+}
+
+.SideMenu .nav-link:focus-visible,
+.sidebar-backdrop:focus-visible {
+  outline: 3px solid #ffdf5d;
+  outline-offset: 2px;
+}
+
+.sidebar-group-link {
+  border: 0;
+  text-align: left;
+}
+
+.sidebar-subnav {
+  padding: 0.25rem 0 0.25rem 1.25rem;
+}
+
+.sidebar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 .PageContent{
@@ -66,11 +93,14 @@ body {
 
 .SideMenuAndPageContent{
   display: flex;
-  flex: 1;
-  justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   background-color: white;
-  /* height: calc(100% - 52px); */
+  min-height: calc(100vh - 138px);
+}
+
+.SideMenuAndPageContent > main {
+  flex: 1;
+  min-width: 0;
 }
 
 .table-responsive:focus-visible,
@@ -80,4 +110,119 @@ body {
   outline-offset: -3px;
   position: relative;
   z-index: 1;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  html,
+  body,
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  .AppHeader {
+    flex: 0 0 auto;
+  }
+
+  .SideMenuAndPageContent {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .SideMenu {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .SideMenuAndPageContent > main {
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+
+  .AppFooter {
+    position: static;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .AppHeader {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .AppHeader .container-fluid {
+    flex-wrap: nowrap;
+  }
+
+  .AppHeader .header-actions {
+    gap: 0.25rem !important;
+    margin-inline-start: auto;
+    flex-shrink: 0;
+  }
+
+  .AppHeader .btn-light {
+    padding: 0.375rem 0.5rem;
+  }
+
+  .SideMenu.sidebar-mobile {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 1050;
+    width: min(18rem, 85vw);
+    min-height: 100vh;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.25s ease, visibility 0.25s ease;
+  }
+
+  .SideMenu.sidebar-mobile.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .SideMenu.sidebar-mobile[aria-hidden="true"] {
+    pointer-events: none;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1040;
+    border: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .SideMenuAndPageContent {
+    min-height: calc(100vh - 138px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .SideMenu.sidebar-mobile {
+    transition: none;
+  }
 }
