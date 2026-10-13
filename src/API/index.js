@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import axios from "axios"
 
 export const ticketsBaseUrl = 'https://localhost:7110/Tickets';
@@ -39,19 +39,18 @@ export function GetTicketsEdit(id) {
   )
 }
 
-export default function GetTicketDetails(id) {
-  const [details, setDetails] = useState([]);
+// export default function GetTicketDetails(id) {
+//   const [details, setDetails] = useState([]);
 
-  fetch( ticketsBaseUrl + `/Details/${id}`)
-  .then((res) => res.json())
-  .then((res) => {
-    setDetails(res.data)   
-  })  
-}
+//   fetch( ticketsBaseUrl + `/Details/${id}`)
+//   .then((res) => res.json())
+//   .then((res) => {
+//     setDetails(res.data)   
+//   })  
+// }
 
 export async function DeleteTicket(id) {
   return (
-    // await axios.delete(ticketsBaseUrl + `/Delete/${id}`, {method: 'DELETE'})
      await axios.delete(`https://localhost:7110/Tickets/Delete/${id}`, {method: 'DELETE'})
         .then((res) =>{
           if(!res.ok){

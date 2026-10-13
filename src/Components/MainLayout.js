@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { getToken } from "../utils/appUtils";
 import { Common } from "../utils/Common";
@@ -41,7 +41,7 @@ const MainLayout = (props) => {
           onClose={() => setSidebarOpen(false)}
         />
         <main id="main-content" tabIndex="-1">
-          <Outlet />
+          {!pageLoading && <Outlet />}
         </main>
       </div>
       <AppFooter />

@@ -95,6 +95,10 @@ function Login(props) {
                   Submit
                 </button>
               </form>
+
+              <button className="btn btn-primary w-100 mt-2" type="button" onClick={() => navigate("/auth/Register")}>
+                Register
+              </button>
             </div>
           </section>
 

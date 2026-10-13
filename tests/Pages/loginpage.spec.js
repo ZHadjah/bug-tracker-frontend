@@ -65,6 +65,12 @@ test.describe("Login Page", () => {
         await expect(submitButton).toBeVisible();
     });
 
+    test('should navigate to the Register page from the Register button', async ({ page }) => {
+        await page.getByRole('button', { name: 'Register', exact: true }).click();
+
+        await expect(page).toHaveURL(/\/auth\/Register$/);
+    });
+
     test('should display Admin, PM, Dev, and Submitter Demo buttons', async ({ page }) => {
         const adminDemoButton = page.getByRole('button', { name: 'Demo Admin', exact: true });
         const pmDemoButton = page.getByRole('button', { name: 'Demo PM', exact: true });

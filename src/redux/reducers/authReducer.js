@@ -9,7 +9,6 @@ const initialState = {
 }
 
 const authReducer = (state = initialState, action = {}) => {
-  const payload = action.payload;
   switch(action.type) {
  
 
