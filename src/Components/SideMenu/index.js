@@ -30,6 +30,16 @@ const navigationGroups = [
   },
 ];
 
+function getSubMenuClassName(label) {
+  const className = label
+    .toLowerCase()
+    .replace(/\ba\b/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+
+  return `${className}-sub-menu`;
+}
+
 function SideMenu({ open, onClose }) {
   const { pathname } = useLocation();
   const [openGroups, setOpenGroups] = useState(() => ({
@@ -159,7 +169,7 @@ function SideMenu({ open, onClose }) {
                 <li className="nav-item" key={group.id}>
                   <button
                     type="button"
-                    className="nav-link sidebar-group-link d-flex align-items-center gap-3 rounded w-100"
+                    className={`nav-link sidebar-group-link ${group.id}-link d-flex align-items-center gap-3 rounded w-100`}
                     aria-expanded={expanded}
                     aria-controls={`${group.id}-links`}
                     onClick={() => toggleGroup(group.id)}
@@ -177,7 +187,7 @@ function SideMenu({ open, onClose }) {
                             to={link.to}
                             end
                             className={({ isActive }) =>
-                              `nav-link d-flex align-items-center gap-2 rounded ${
+                              `nav-link d-flex align-items-center gap-2 rounded ${getSubMenuClassName(link.label)} ${
                                 isActive ? "active fw-semibold" : ""
                               }`
                             }
@@ -194,7 +204,11 @@ function SideMenu({ open, onClose }) {
               );
             })}
             <li className="nav-item">
-              <NavLink to="/Users" className={linkClassName} onClick={onClose}>
+              <NavLink
+                to="/Users"
+                className={(route) => `${linkClassName(route)} users-link`}
+                onClick={onClose}
+              >
                 <FaUser aria-hidden="true" />
                 <span>Manage Users</span>
               </NavLink>

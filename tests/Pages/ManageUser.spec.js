@@ -7,11 +7,18 @@ test.describe("Users Page", () => {
     //users need to authenticate to access the dashboard page,
     //so I will set a token in local storage before each test
     test.beforeEach(async ({ page }) => {
-        await page.route("https://localhost:7110/Users", (route) =>
+        await page.route("https://localhost:7110/UserRoles/ManageUserRoles", (route) =>
             route.fulfill({
                 status: 200,
                 contentType: "application/json",
-                body: JSON.stringify({ $values: users }),
+                body: JSON.stringify({
+                    $values: users.map(({ id, name, Role }) => ({
+                        id,
+                        $id: String(id),
+                        btUser: { fullName: name },
+                        usersRole: Role,
+                    })),
+                }),
             })
         );
         await page.addInitScript(() =>
@@ -31,7 +38,7 @@ test.describe("Users Page", () => {
 
     test('should have a edit button for every entry in the users table', async ({ page }) => {
         const result = await expectActionButtonOnTablePage(page, {
-            tableName: "Users",
+            tableName: "User roles",
             actionName: "Edit",
             expectedRowCount: users.length,
         });
@@ -43,7 +50,7 @@ test.describe("Users Page", () => {
 
     test('should have a delete button for every entry in the users table', async ({ page }) => {
         const result = await expectActionButtonOnTablePage(page, {
-            tableName: "Users",
+            tableName: "User roles",
             actionName: "Delete",
             expectedRowCount: users.length,
         });

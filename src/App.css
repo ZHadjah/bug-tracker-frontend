@@ -1,3 +1,10 @@
+:root {
+  --dashboard-card-tickets: #01D2FE;
+  --dashboard-card-projects: #fba80f;
+  --dashboard-card-companies: #FA8072;
+  --dashboard-card-users: #40ba40;
+}
+
 body {
   display: block !important;
   width: 100%;
@@ -89,6 +96,22 @@ html {
 
 .PageContent{
   padding-left: 12px;
+}
+
+.dashboard-card--tickets {
+  background-color: var(--dashboard-card-tickets);
+}
+
+.dashboard-card--projects {
+  background-color: var(--dashboard-card-projects);
+}
+
+.dashboard-card--companies {
+  background-color: var(--dashboard-card-companies);
+}
+
+.dashboard-card--users {
+  background-color: var(--dashboard-card-users);
 }
 
 .SideMenuAndPageContent{

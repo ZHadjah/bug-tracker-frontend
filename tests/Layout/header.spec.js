@@ -74,7 +74,7 @@ test.describe("Header ", () => {
         const logoutButton = page.getByRole("button", { name: "Logout", exact: true });
 
         await expect(logoutButton).toBeVisible();
-        await expect(logoutButton).toHaveAccessibleName({ name: "Logout", exact: true });
+        await expect(logoutButton).toHaveAccessibleName("Logout");
         await logoutButton.click();
 
         await expect(page).toHaveURL(/\/auth\/Login$/);

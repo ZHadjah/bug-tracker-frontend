@@ -20,6 +20,7 @@ const tickets = [
     { id: 19, name: "Example Ticket Four", description: "Fourth test ticket", status: "Resolved" },
     { id: 20, name: "Example Ticket Five", description: "Fifth test ticket", status: "Rejected" },
 ];
+const { expect } = require("@playwright/test");
 
 const inputFieldLabels = [
     { label: "Title", fieldId: "ticket-title" },
@@ -93,6 +94,13 @@ async function expectActionButtonOnTablePage(page, { tableName, actionName, expe
     const table = page.getByRole("table", { name: tableName, exact: true });
     await table.waitFor({ state: "visible" });
 
+    const actionNamePattern = new RegExp(
+        `^${actionName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`
+    );
+    await expect(
+        table.locator("tbody tr").first().getByRole("button", { name: actionNamePattern })
+    ).toBeVisible();
+
     const pagination = page.getByRole("navigation", { name: "Table pagination" });
     const hasPagination = (await pagination.count()) > 0;
     let pageCount = 1;
@@ -109,13 +117,15 @@ async function expectActionButtonOnTablePage(page, { tableName, actionName, expe
     const rows = table.locator("tbody tr");
     const rowsMissingAction = [];
     let checkedRowCount = 0;
-    const actionNamePattern = new RegExp(
-        `^${actionName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`
-    );
 
     for (let pageNumber = 1; pageNumber <= pageCount; pageNumber += 1) {
         if (hasPagination) {
-            await pagination.getByRole("button", { name: String(pageNumber), exact: true }).click();
+            const pageButton = pagination.getByRole("button", {
+                name: String(pageNumber),
+                exact: true,
+            });
+            await pageButton.click();
+            await expect(pageButton).toHaveAttribute("aria-current", "page");
         }
 
         const rowCount = await rows.count();

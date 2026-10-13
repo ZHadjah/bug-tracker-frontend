@@ -11,32 +11,33 @@ test.describe("Footer ", () => {
         await page.goto("/");
     });
 
-    test('should have Github link', async ({ page }) => {
+    // TODO: write UI Tests for these
+    // test('should have Github link', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have a properly functioning Github link', async ({ page }) => {
+    // test('should have a properly functioning Github link', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have a portfolio page link', async ({ page }) => {
+    // test('should have a portfolio page link', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have a properly functioning portfolio page link', async ({ page }) => {
+    // test('should have a properly functioning portfolio page link', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have logout button', async ({ page }) => {
+    // test('should have logout button', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have a properly functioning logout button', async ({ page }) => {
+    // test('should have a properly functioning logout button', async ({ page }) => {
         
-    });    
+    // });    
 });

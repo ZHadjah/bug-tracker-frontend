@@ -63,16 +63,16 @@ function Dashboard() {
       <h1 className="visually-hidden">Dashboard</h1>
       <div className="row g-3 mb-4">
         <div className="col-12 col-sm-6 col-xl-3">
-          <DashboardCard bgColor="#01D2FE" icon="T" title="Tickets" value={entityNumbers.tickets} />
+          <DashboardCard variant="tickets" icon="T" title="Tickets" value={entityNumbers.tickets} />
         </div>
         <div className="col-12 col-sm-6 col-xl-3">
-          <DashboardCard bgColor="#fba80f" icon="P" title="Projects" value={entityNumbers.projects} />
+          <DashboardCard variant="projects" icon="P" title="Projects" value={entityNumbers.projects} />
         </div>
         <div className="col-12 col-sm-6 col-xl-3">
-          <DashboardCard bgColor="#d81414" icon="C" title="Companies" value={entityNumbers.companies} />
+          <DashboardCard variant="companies" icon="C" title="Companies" value={entityNumbers.companies} />
         </div>
         <div className="col-12 col-sm-6 col-xl-3">
-          <DashboardCard bgColor="#40ba40" icon="U" title="Users" value={entityNumbers.users} />
+          <DashboardCard variant="users" icon="U" title="Users" value={entityNumbers.users} />
         </div>
       </div>
 
@@ -208,13 +208,12 @@ function RecentTickets() {
   );
 }
 
-function DashboardCard({ bgColor, icon, value, title }) {
+function DashboardCard({ variant, icon, value, title }) {
   return (
     <div
-      className="card h-100 border-0 shadow-sm"
+      className={`card dashboard-card dashboard-card--${variant} h-100 border-0 shadow-sm`}
       role="group"
       tabIndex={0}
-      style={{ backgroundColor: bgColor }}
     >
       <div id={`dashboard${title}Card`} className="card-body d-flex align-items-center gap-3" aria-label={`${title}: ${value}`}>
         <span className="rounded-circle bg-white bg-opacity-50 d-inline-flex align-items-center justify-content-center fw-bold"

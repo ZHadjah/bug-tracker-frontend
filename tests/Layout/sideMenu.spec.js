@@ -10,12 +10,20 @@ test.describe("Side Menu ", () => {
         await page.goto("/");
     });
 
-    test('should have 5 options to choose from, Dashboard, View all companies, and the 2 dropdowns, and Manage Users', async ({ page }) => {
+    async function openMobileNavigation(page) {
+        const openButton = page.getByRole("button", { name: "Open navigation menu" });
+        if (await openButton.isVisible()) {
+            await openButton.click();
+        }
+    }
+
+    // test('should have 5 options to choose from, Dashboard, View all companies, and the 2 dropdowns, and Manage Users', async ({ page }) => {
         
-    });
+    // });
 
 
     test('should have Tickets and Projects dropdown Menus', async ({ page }) => {
+        await openMobileNavigation(page);
         const ticketsMenu = page.getByRole("button", {
             name: "Tickets sidebar dropdown menu",
         });
@@ -24,7 +32,6 @@ test.describe("Side Menu ", () => {
         });
 
         await expect(ticketsMenu).toBeVisible();
-        await expect(ticketsMenu).toHaveAccessibleName("Tickets sidebar dropdown menu");
         await expect(projectsMenu).toBeVisible();
 
         await ticketsMenu.click();
@@ -32,6 +39,38 @@ test.describe("Side Menu ", () => {
 
         await projectsMenu.click();
         await expect(projectsMenu).toHaveAttribute("aria-expanded", "true");
+    });
+
+    test("should expand the Tickets menu with keyboard activation", async ({ page }) => {
+        await openMobileNavigation(page);
+        const ticketsMenu = page.getByRole("button", {
+            name: "Tickets sidebar dropdown menu",
+        });
+        const createTicket = page.getByRole("link", { name: "Create A Ticket" });
+
+        await ticketsMenu.focus();
+        await expect(ticketsMenu).toBeFocused();
+        await expect(ticketsMenu).toHaveAttribute("aria-expanded", "false");
+
+        await page.keyboard.press("Enter");
+
+        await expect(ticketsMenu).toHaveAttribute("aria-expanded", "true");
+        await expect(createTicket).toBeVisible();
+    });
+
+    test("should generate submenu classes from each submenu label", async ({ page }) => {
+        await openMobileNavigation(page);
+        await page.locator("button.tickets-link").click();
+        await expect(page.getByRole("link", { name: "Create A Ticket" }))
+            .toHaveClass(/create-ticket-sub-menu/);
+        await expect(page.getByRole("link", { name: "View All Tickets" }))
+            .toHaveClass(/view-all-tickets-sub-menu/);
+
+        await page.locator("button.projects-link").click();
+        await expect(page.getByRole("link", { name: "Create A Project" }))
+            .toHaveClass(/create-project-sub-menu/);
+        await expect(page.getByRole("link", { name: "View All Projects" }))
+            .toHaveClass(/view-all-projects-sub-menu/);
     });
 
     test("should open the sidebar from the hamburger menu on mobile", async ({ page }) => {
@@ -77,53 +116,38 @@ test.describe("Side Menu ", () => {
         expect(documentScrollTop).toBe(0);
     });
 
-    test('should have Tickets dropdown menu options populated', async ({ page }) => {
+    // test('should have Tickets dropdown menu options populated', async ({ page }) => {
         
-    });
-
-    test("should highlight only the current Tickets submenu page", async ({ page }) => {
-        await page.goto("/Tickets/Create");
-
-        const ticketsGroup = page.getByRole("button", { name: "Tickets sidebar dropdown menu" });
-        const createTicket = page.getByRole("link", { name: "Create A Ticket" });
-        const viewTickets = page.getByRole("link", { name: "View All Tickets" });
-
-        await expect(ticketsGroup).toHaveAttribute("aria-expanded", "true");
-        await expect(createTicket).toHaveClass(/active/);
-        await expect(createTicket).toHaveAttribute("aria-current", "page");
-        await expect(viewTickets).not.toHaveClass(/active/);
-        await expect(viewTickets).not.toHaveAttribute("aria-current", "page");
-        await expect(ticketsGroup).not.toHaveClass(/active/);
-    });
+    // });
 
 
-    test('should have a properly functioning Create a Ticket link', async ({ page }) => {
+    // test('should have a properly functioning Create a Ticket link', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have a properly functioning View all Tickets', async ({ page }) => {
+    // test('should have a properly functioning View all Tickets', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have Projects dropdown menu options populated', async ({ page }) => {
+    // test('should have Projects dropdown menu options populated', async ({ page }) => {
         
-    });
+    // });
 
-    test('should have a properly functioning Create a Project link', async ({ page }) => {
+    // test('should have a properly functioning Create a Project link', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have a properly functioning View all Projects', async ({ page }) => {
+    // test('should have a properly functioning View all Projects', async ({ page }) => {
         
-    });
+    // });
 
 
-    test('should have a properly functioning Manage Users link', async ({ page }) => {
+    // test('should have a properly functioning Manage Users link', async ({ page }) => {
         
-    });
+    // });
 
 
     

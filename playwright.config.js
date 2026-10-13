@@ -16,8 +16,7 @@ module.exports = defineConfig({
   reporter: [
     ["list"],
     ["html", {
-      outputFolder: path.join(playwrightOutputDirectory, "playwright-report"),
-      open: "never",
+      open: "always",
     }]
   ],
 
