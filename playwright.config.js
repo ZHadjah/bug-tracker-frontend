@@ -1,8 +1,13 @@
 const { defineConfig, devices } = require("@playwright/test");
+const os = require("os");
+const path = require("path");
+
+const playwrightOutputDirectory = path.join(os.tmpdir(), "bug-tracker-frontend-playwright");
 
 module.exports = defineConfig({
   //will find and run all spec.js files 
   testDir: "./tests",
+  outputDir: path.join(playwrightOutputDirectory, "test-results"),
 
   //Run tests in parallel
   fullyParallel: true,
@@ -10,7 +15,10 @@ module.exports = defineConfig({
   //Controls how Playwright prints test results in the terminal.
   reporter: [
     ["list"],
-    ["html"]
+    ["html", {
+      outputFolder: path.join(playwrightOutputDirectory, "playwright-report"),
+      open: "never",
+    }]
   ],
 
   use: {
@@ -55,7 +63,7 @@ module.exports = defineConfig({
 
   //Run local dev server before tests
   webServer: {
-    command: "npm.cmd start",
+    command: "npm start",
     url: "http://127.0.0.1:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
