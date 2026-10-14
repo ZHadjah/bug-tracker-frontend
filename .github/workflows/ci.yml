@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
+  BugTracker-FrontEnd-Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,14 +27,11 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Install Microsoft Edge
-        run: npx playwright install msedge
-
       - name: Run Playwright end-to-end tests
         run: npm run test:e2e
 
       - name: Build project
-        run: npm run build --if-present
+        run: npm run build
         
         env:
-          CI: "false"
+          CI: "false" # Set CI to false so warnings don't fail the build.

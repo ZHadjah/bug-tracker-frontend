@@ -28,7 +28,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "prepare": "husky",
+    "setup": "npm ci && npx playwright install",
     "start": "react-scripts start",
+    "lint": "eslint src --ext .js,.jsx",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:e2e": "playwright test",
@@ -55,6 +58,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.64.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "husky": "^9.1.7"
   }
 }
