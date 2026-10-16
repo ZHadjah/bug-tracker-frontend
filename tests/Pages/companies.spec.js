@@ -5,17 +5,23 @@ test.describe("Companies Page", () => {
     //users need to authenticate to access the dashboard page,
     //so I will set a token in local storage before each test
     test.beforeEach(async ({ page }) => {
-        await page.route("https://bug-tracker-app-production.up.railway.app/companies", (route) =>
-            route.fulfill({
-                status: 200,
-                contentType: "application/json",
-                body: JSON.stringify({
-                    $values: [
-                        { id: 1, name: "Example Company One", description: "First test company", members: 3 },
-                        { id: 2, name: "Example Company Two", description: "Second test company", members: 5 },
-                    ],
-                }),
-            })
+        await page.route(
+            (url) => {
+                const requestUrl = new URL(url);
+                return requestUrl.origin !== "http://127.0.0.1:3000" &&
+                    requestUrl.pathname === "/companies";
+            },
+            (route) =>
+                route.fulfill({
+                    status: 200,
+                    contentType: "application/json",
+                    body: JSON.stringify({
+                        $values: [
+                            { id: 1, name: "Example Company One", description: "First test company", members: 3 },
+                            { id: 2, name: "Example Company Two", description: "Second test company", members: 5 },
+                        ],
+                    }),
+                })
         );
         await page.addInitScript(() =>
             localStorage.setItem("user_token", "playwright-test-token")

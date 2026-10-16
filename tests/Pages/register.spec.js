@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 test.describe("Register Page", () => {
     test.beforeEach(async ({ page }) => {
-        await page.route("https://bug-tracker-app-production.up.railway.app/Companies", (route) =>
+        await page.route("**/Companies", (route) =>
             route.fulfill({
                 status: 200,
                 contentType: "application/json",
@@ -25,9 +25,18 @@ test.describe("Register Page", () => {
         await expect(page.getByRole("button", { name: "Register" })).toHaveClass(/btn-primary/);
     });
 
+    test("should allow scrolling through the registration form on shorter desktop screens", async ({ page }) => {
+        await page.setViewportSize({ width: 1280, height: 500 });
+
+        const authLayout = page.locator(".auth-layout");
+        await expect.poll(() =>
+            authLayout.evaluate((element) => element.scrollHeight > element.clientHeight)
+        ).toBe(true);
+    });
+
     // test("should not submit when the password confirmation does not match", async ({ page }) => {
     //     let registrationRequested = false;
-    //     await page.route("https://bug-tracker-app-production.up.railway.app/Authentication/Register", (route) => {
+    //     await page.route("**/Authentication/Register", (route) => {
     //         registrationRequested = true;
     //         return route.fulfill({ status: 200, body: "{}" });
     //     });
@@ -46,7 +55,7 @@ test.describe("Register Page", () => {
 
     // test("should submit valid registration data and navigate to the dashboard", async ({ page }) => {
     //     let submittedUser;
-    //     await page.route("https://bug-tracker-app-production.up.railway.app/Authentication/Register", (route) => {
+    //     await page.route("**/Authentication/Register", (route) => {
     //         submittedUser = route.request().postDataJSON();
     //         return route.fulfill({
     //             status: 200,

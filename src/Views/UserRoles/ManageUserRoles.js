@@ -4,6 +4,7 @@ import BootstrapModal from "../BootstrapModal";
 import BootstrapTable from "../BootstrapTable";
 import BootstrapViewGrid from "../BootstrapViewGrid";
 import { getToken } from "../../utils/appUtils";
+import { baseUrl } from "../../API";
 
 function ManageUserRoles() {
   const [dataSource, setDataSource] = useState([]);
@@ -13,7 +14,7 @@ function ManageUserRoles() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://bug-tracker-app-production.up.railway.app/UserRoles/ManageUserRoles", {
+      .get(`${baseUrl}/UserRoles/ManageUserRoles`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       })
       .then((res) => {

@@ -11,7 +11,7 @@ test.describe("Tickets Create Page", () => {
     //so I will set a token in local storage before each test
     test.beforeEach(async ({ page }) => {
         for (const [url, response] of Object.entries(dropdownResponses)) {
-            await page.route(url, (route) =>
+            await page.route(`**${url}`, (route) =>
                 route.fulfill({
                     status: 200,
                     contentType: "application/json",
@@ -102,7 +102,7 @@ test.describe("Tickets Create Page", () => {
 
     test("should populate the Owner and Developer dropdowns with users from the API", async ({ page }) => {
         const userNames = dropdownResponses[
-            "https://bug-tracker-app-production.up.railway.app/UserRoles/GetAllUsersInCompany"
+            "/UserRoles/GetAllUsersInCompany"
         ].map(({ FullName }) => FullName);
 
         for (const [label, placeholder] of [

@@ -3,6 +3,7 @@ import axios from "axios";
 import BootstrapModal from "../BootstrapModal";
 import BootstrapTable from "../BootstrapTable";
 import BootstrapViewGrid from "../BootstrapViewGrid";
+import { baseUrl } from "../../API";
 
 function CompaniesRead() {
   const [dataSource, setDataSource] = useState([]);
@@ -11,7 +12,7 @@ function CompaniesRead() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("https://bug-tracker-app-production.up.railway.app/companies").then((res) => {
+    axios.get(`${baseUrl}/companies`).then((res) => {
       setDataSource(res.data.$values);
       setLoading(false);
     });

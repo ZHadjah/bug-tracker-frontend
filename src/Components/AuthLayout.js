@@ -21,10 +21,8 @@ const AuthLayout = (props) => {
   }, []);
 
   return (
-    <div className="">
-      <div style={{ height: "calc(100vh - 50px)" }}>
-        {!pageLoading && <Outlet />}
-      </div>
+    <div className="auth-layout">
+      {!pageLoading && <Outlet />}
     </div>
   );
 };

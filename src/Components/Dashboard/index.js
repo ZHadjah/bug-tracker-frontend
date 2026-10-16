@@ -4,6 +4,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import axios from 'axios';
 import BootstrapTable from "../../Views/BootstrapTable";
+import { baseUrl } from "../../API";
 
 function Dashboard() { 
   const [entityNumbers, setEntityNumbers] = useState({
@@ -31,7 +32,7 @@ function Dashboard() {
    });
 
    useEffect(() => {
-    axios.get('https://bug-tracker-app-production.up.railway.app/home').then(res => {
+    axios.get(`${baseUrl}/home`).then(res => {
       setEntityNumbers({
         tickets: res.data.NumberOfTickets, 
         projects: res.data.NumberOfProjects,

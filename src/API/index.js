@@ -1,8 +1,13 @@
 import axios from "axios"
 
-export const ticketsBaseUrl = 'https://bug-tracker-app-production.up.railway.app/Tickets';
-export const baseUrl = 'https://bug-tracker-app-production.up.railway.app';
-export const homeBaseUrl = 'https://bug-tracker-app-production.up.railway.app/home';
+const configuredApiUrl =
+  process.env.REACT_APP_API_URL || "https://bug-tracker-app-production.up.railway.app";
+
+export const baseUrl = (
+  process.env.NODE_ENV === "development" ? "https://localhost:7110" : configuredApiUrl
+).replace(/\/+$/, "");
+export const ticketsBaseUrl = `${baseUrl}/Tickets`;
+export const homeBaseUrl = `${baseUrl}/home`;
 
 
 //used in dashboard for charts and small cards
@@ -50,7 +55,7 @@ export function GetTicketsEdit(id) {
 
 export async function DeleteTicket(id) {
   return (
-     await axios.delete(`https://bug-tracker-app-production.up.railway.app/Tickets/Delete/${id}`, {method: 'DELETE'})
+     await axios.delete(`${ticketsBaseUrl}/Delete/${id}`, {method: 'DELETE'})
         .then((res) =>{
           if(!res.ok){
             console.log("error")

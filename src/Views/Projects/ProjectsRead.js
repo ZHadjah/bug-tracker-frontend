@@ -3,6 +3,7 @@ import axios from "axios";
 import BootstrapModal from "../BootstrapModal";
 import BootstrapTable from "../BootstrapTable";
 import BootstrapViewGrid from "../BootstrapViewGrid";
+import { baseUrl } from "../../API";
 
 function ProjectsRead() {
   const [dataSource, setDataSource] = useState([]);
@@ -11,7 +12,7 @@ function ProjectsRead() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("https://bug-tracker-app-production.up.railway.app/projects").then((res) => {
+    axios.get(`${baseUrl}/projects`).then((res) => {
       setDataSource(res.data.$values);
       setLoading(false);
     });

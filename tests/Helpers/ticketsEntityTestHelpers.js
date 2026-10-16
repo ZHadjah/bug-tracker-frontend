@@ -36,7 +36,7 @@ const inputFieldLabels = [
 ];
 
 const dropdownResponses = {
-    "https://bug-tracker-app-production.up.railway.app/Projects": {
+    "/Projects": {
         $values: [
             { id: 1, name: "Website Redesign" },
             { id: 2, name: "Mobile App" },
@@ -45,7 +45,7 @@ const dropdownResponses = {
             { id: 5, name: "Documentation" },
         ],
     },
-    "https://bug-tracker-app-production.up.railway.app/TicketTypes/Options": [
+    "/TicketTypes/Options": [
         { Value: "New Development" },
         { Value: "Work Task" },
         { Value: "Defect" },
@@ -53,19 +53,19 @@ const dropdownResponses = {
         { Value: "Enhancement" },
         { Value: "General Task" },
     ],
-    "https://bug-tracker-app-production.up.railway.app/TicketPriorities/Options": [
+    "/TicketPriorities/Options": [
         { Value: "Low" },
         { Value: "Medium" },
         { Value: "High" },
         { Value: "Urgent" },
     ],
-    "https://bug-tracker-app-production.up.railway.app/TicketStatus/Options": [
+    "/TicketStatus/Options": [
         { Value: "New" },
         { Value: "Development" },
         { Value: "Testing" },
         { Value: "Resolved" },
     ],
-    "https://bug-tracker-app-production.up.railway.app/UserRoles/GetAllUsersInCompany": [
+    "/UserRoles/GetAllUsersInCompany": [
         { id: 1, FullName: "Alex Appuser" },
         { id: 1, FullName: "Elon Appuser" },
         { id: 1, FullName: "John Appuser" },

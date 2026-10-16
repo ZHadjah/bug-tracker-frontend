@@ -17,6 +17,26 @@ test.describe("Login Page", () => {
         await expect(page).toHaveTitle("Internal Issues");
     });
 
+    for (const viewport of [
+        { width: 320, height: 568 },
+        { width: 360, height: 640 },
+        { width: 844, height: 390 },
+        { width: 1280, height: 500 },
+        { width: 1920, height: 1080 },
+    ]) {
+        test(`should show both login cards within the viewport at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+            await page.setViewportSize(viewport);
+            await page.goto("/auth/Login");
+
+            for (const card of [page.locator("#loginSection"), page.locator('[aria-labelledby="demo-login-heading"]')]) {
+                const box = await card.boundingBox();
+                expect(box).not.toBeNull();
+                expect(box.y).toBeGreaterThanOrEqual(0);
+                expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+            }
+        });
+    }
+
     test('should display logo inside Login div', async ({ page }) => {
         const logo = page.locator('img[alt="Internal Issues Ticket"]');
         await expect(logo).toBeVisible();
@@ -81,5 +101,25 @@ test.describe("Login Page", () => {
         await expect(pmDemoButton).toBeVisible();
         await expect(devDemoButton).toBeVisible();
         await expect(submitterDemoButton).toBeVisible();
+    });
+
+    test("should send demo login to the local API during development", async ({ page }) => {
+        let requestUrl;
+        await page.route("**/Authentication/Login", async (route) => {
+            requestUrl = route.request().url();
+            await route.fulfill({
+                status: 200,
+                contentType: "application/json",
+                body: JSON.stringify({
+                    token: "playwright-demo-token",
+                    user: { fullName: "Demo Admin" },
+                }),
+            });
+        });
+
+        await page.getByRole("button", { name: "Demo Admin", exact: true }).click();
+
+        await expect.poll(() => requestUrl).toBe("https://localhost:7110/Authentication/Login");
+        await expect(page).toHaveURL("/");
     });
 });

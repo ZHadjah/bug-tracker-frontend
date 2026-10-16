@@ -18,35 +18,37 @@ function Login(props) {
     email: "",
     password: "",
   });
+  const [loginError, setLoginError] = useState("");
 
   const navigate = useNavigate();
 
-  const onSubmitLogin = (event, userandPass) => {
+  const onSubmitLogin = async (event, userandPass) => {
     event?.preventDefault();
-    userandPass = userandPass || loginInfo
-    // axios call to backend login POST method
-    authApiLogin(userandPass.email, userandPass.password, (response) => {
-      if (!response) {
-        console.log("error ");
-        return;
-      } else {
-        //change global state value
-        let payload = {
-          jwt: response.data.token,
-          user: response.data.user.fullName,
-        };
+    const credentials = userandPass || loginInfo;
+    setLoginError("");
 
-        actionLoggedSuccess(payload);
-        setToken(payload.jwt);
-        navigate("/");
-      }
-    });
+    try {
+      const response = await authApiLogin(credentials.email, credentials.password);
+      const payload = {
+        jwt: response.data.token,
+        user: response.data.user.fullName,
+      };
+
+      actionLoggedSuccess(payload);
+      setToken(payload.jwt);
+      navigate("/");
+    } catch (error) {
+      setLoginError(
+        error.response?.data?.message ||
+          "Login failed. Check your credentials and confirm the API is running."
+      );
+    }
   };
 
   return (
-    <main className="login-page container-fluid d-flex align-items-center justify-content-center py-4">
+    <main className="login-page container-fluid d-flex align-items-center justify-content-center">
       <div className="row justify-content-center w-100">
-        <div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+        <div className="col-12 login-content">
           <section id="loginSection" className="card shadow">
             <div className="card-body p-4 p-md-5">
               <img
@@ -55,6 +57,8 @@ function Login(props) {
                 alt="Internal Issues Ticket"
               />
               <h1 className="h3 text-center mb-4">Sign in</h1>
+
+              {loginError && <div className="alert alert-danger" role="alert">{loginError}</div>}
 
               <form name="login" autoComplete="on" onSubmit={(event) => onSubmitLogin(event)}>
                 <div className="mb-3">
@@ -104,8 +108,8 @@ function Login(props) {
 
           <section className="card shadow-sm mt-3" aria-labelledby="demo-login-heading">
             <div className="card-body">
-              <h2 id="demo-login-heading" className="h5 mb-3">Try a demo account</h2>
-              <div className="d-grid gap-2 d-sm-flex flex-wrap">
+              <h2 id="demo-login-heading" className="h5 mb-3 justify-content-center">Try a demo account</h2>
+              <div className="login-demo-buttons">
                 <button
                   id="demoAdminButton"
                   className="btn btn-primary flex-fill"

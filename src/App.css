@@ -147,6 +147,13 @@ html {
     overflow: hidden;
   }
 
+  .auth-layout {
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+
   .app-shell {
     display: flex;
     flex-direction: column;

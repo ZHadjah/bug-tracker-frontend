@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ticketsBaseUrl } from "../../API";
 
 export function TicketsDelete({ id }) {
-  const baseUrl = "https://bug-tracker-app-production.up.railway.app/Tickets";
   const [details, setDetails] = useState(null);
   const [deleteError, setDeleteError] = useState("");
   const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
-    axios.get(`${baseUrl}/Details/${id}`).then((res) => setDetails(res.data));
+    axios.get(`${ticketsBaseUrl}/Details/${id}`).then((res) => setDetails(res.data));
   }, [id]);
 
   async function deleteTicket() {
     setDeleteError("");
     try {
-      await axios.delete(`${baseUrl}/Delete/${id}`);
+      await axios.delete(`${ticketsBaseUrl}/Delete/${id}`);
       setDeleted(true);
     } catch (error) {
       setDeleteError(error.response?.data?.message || error.message || "Could not delete ticket.");

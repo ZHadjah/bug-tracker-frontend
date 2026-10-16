@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { ticketsBaseUrl } from "../../API";
 
 export function TicketsUpdate({ id }) {
-  const baseUrl = "https://bug-tracker-app-production.up.railway.app/Tickets";
   const [details, setDetails] = useState(null);
   const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
-    axios.get(`${baseUrl}/Details/${id}`).then((res) => setDetails(res.data));
+    axios.get(`${ticketsBaseUrl}/Details/${id}`).then((res) => setDetails(res.data));
   }, [id]);
 
   async function handleSubmit(event) {
     event.preventDefault();
     setSubmitError("");
     try {
-      await axios.put(`${baseUrl}/Update/${id}`, {});
+      await axios.put(`${ticketsBaseUrl}/Update/${id}`, {});
     } catch (error) {
       setSubmitError(error.response?.data?.message || error.message || "Could not update ticket.");
     }

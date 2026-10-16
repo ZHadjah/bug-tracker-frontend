@@ -28,6 +28,21 @@ by the Playwright projects. On Linux, if browser system dependencies are missing
 install them with `npx playwright install --with-deps` (this may require
 administrator privileges).
 
+## API configuration and deployment
+
+During local development (`npm start`), API requests go to the local .NET API
+at `https://localhost:7110` (the React development server itself runs at
+`http://localhost:3000`). Start the backend locally and trust its ASP.NET
+development HTTPS certificate. Production builds use `REACT_APP_API_URL`, read
+from a root-level `.env` file or the deployment environment. The checked-in
+`.env` points to the production Railway API by default.
+
+For Netlify, set `REACT_APP_API_URL` in the site's environment variables to the
+backend's public HTTPS origin, for example
+`https://bug-tracker-app-production.up.railway.app`, then trigger a new deploy.
+Create React App embeds this value at build time; changing the variable requires
+a rebuild and redeploy. This URL is public frontend configuration, not a secret.
+
 ## Git pre-commit checks
 
 Husky installs the Git hooks when dependencies are installed. Before each commit,

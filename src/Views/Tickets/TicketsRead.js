@@ -5,6 +5,7 @@ import { TicketsUpdate } from "./TicketsUpdate.js";
 import BootstrapModal from "../BootstrapModal";
 import BootstrapTable from "../BootstrapTable";
 import BootstrapViewGrid from "../BootstrapViewGrid";
+import { ticketsBaseUrl } from "../../API";
 
 function TicketsRead() {
   const [dataSource, setDataSource] = useState([]);
@@ -17,7 +18,7 @@ function TicketsRead() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("https://bug-tracker-app-production.up.railway.app/Tickets").then((res) => {
+    axios.get(ticketsBaseUrl).then((res) => {
       setDataSource(res.data.$values);
       setLoading(false);
     });
