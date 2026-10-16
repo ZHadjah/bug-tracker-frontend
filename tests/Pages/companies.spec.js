@@ -5,7 +5,7 @@ test.describe("Companies Page", () => {
     //users need to authenticate to access the dashboard page,
     //so I will set a token in local storage before each test
     test.beforeEach(async ({ page }) => {
-        await page.route("https://localhost:7110/companies", (route) =>
+        await page.route("https://bug-tracker-app-production.up.railway.app/companies", (route) =>
             route.fulfill({
                 status: 200,
                 contentType: "application/json",

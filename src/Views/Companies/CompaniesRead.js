@@ -11,7 +11,7 @@ function CompaniesRead() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("https://localhost:7110/companies").then((res) => {
+    axios.get("https://bug-tracker-app-production.up.railway.app/companies").then((res) => {
       setDataSource(res.data.$values);
       setLoading(false);
     });

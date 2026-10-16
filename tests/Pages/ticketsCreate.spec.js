@@ -102,7 +102,7 @@ test.describe("Tickets Create Page", () => {
 
     test("should populate the Owner and Developer dropdowns with users from the API", async ({ page }) => {
         const userNames = dropdownResponses[
-            "https://localhost:7110/UserRoles/GetAllUsersInCompany"
+            "https://bug-tracker-app-production.up.railway.app/UserRoles/GetAllUsersInCompany"
         ].map(({ FullName }) => FullName);
 
         for (const [label, placeholder] of [

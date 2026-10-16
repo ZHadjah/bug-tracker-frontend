@@ -17,7 +17,7 @@ function TicketsRead() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("https://localhost:7110/Tickets").then((res) => {
+    axios.get("https://bug-tracker-app-production.up.railway.app/Tickets").then((res) => {
       setDataSource(res.data.$values);
       setLoading(false);
     });

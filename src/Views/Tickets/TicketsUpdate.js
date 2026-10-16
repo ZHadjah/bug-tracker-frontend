@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export function TicketsUpdate({ id }) {
-  const baseUrl = "https://localhost:7110/Tickets";
+  const baseUrl = "https://bug-tracker-app-production.up.railway.app/Tickets";
   const [details, setDetails] = useState(null);
   const [submitError, setSubmitError] = useState("");
 

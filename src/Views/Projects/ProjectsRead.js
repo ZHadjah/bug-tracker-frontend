@@ -11,7 +11,7 @@ function ProjectsRead() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("https://localhost:7110/projects").then((res) => {
+    axios.get("https://bug-tracker-app-production.up.railway.app/projects").then((res) => {
       setDataSource(res.data.$values);
       setLoading(false);
     });

@@ -31,7 +31,7 @@ function Dashboard() {
    });
 
    useEffect(() => {
-    axios.get('https://localhost:7110/home').then(res => {
+    axios.get('https://bug-tracker-app-production.up.railway.app/home').then(res => {
       setEntityNumbers({
         tickets: res.data.NumberOfTickets, 
         projects: res.data.NumberOfProjects,

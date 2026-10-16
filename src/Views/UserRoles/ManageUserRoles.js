@@ -13,7 +13,7 @@ function ManageUserRoles() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://localhost:7110/UserRoles/ManageUserRoles", {
+      .get("https://bug-tracker-app-production.up.railway.app/UserRoles/ManageUserRoles", {
         headers: { Authorization: `Bearer ${getToken()}` },
       })
       .then((res) => {

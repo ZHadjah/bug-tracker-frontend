@@ -1,9 +1,8 @@
-import {useState} from 'react'
 import axios from "axios"
 
-export const ticketsBaseUrl = 'https://localhost:7110/Tickets';
-export const baseUrl = 'https://localhost:7110';
-export const homeBaseUrl = 'https://localhost:7110/home';
+export const ticketsBaseUrl = 'https://bug-tracker-app-production.up.railway.app/Tickets';
+export const baseUrl = 'https://bug-tracker-app-production.up.railway.app';
+export const homeBaseUrl = 'https://bug-tracker-app-production.up.railway.app/home';
 
 
 //used in dashboard for charts and small cards
@@ -51,7 +50,7 @@ export function GetTicketsEdit(id) {
 
 export async function DeleteTicket(id) {
   return (
-     await axios.delete(`https://localhost:7110/Tickets/Delete/${id}`, {method: 'DELETE'})
+     await axios.delete(`https://bug-tracker-app-production.up.railway.app/Tickets/Delete/${id}`, {method: 'DELETE'})
         .then((res) =>{
           if(!res.ok){
             console.log("error")
@@ -65,4 +64,3 @@ export async function DeleteTicket(id) {
              
   )
 }
-
